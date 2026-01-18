@@ -1,59 +1,108 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# 🚗 Sembodo AI - Sistem Analisis Data Rental Mobil
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Backend-Laravel_11-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![MySQL](https://img.shields.io/badge/Database-MySQL-00618A?style=for-the-badge&logo=mysql&logoColor=white)
+![Algorithm](https://img.shields.io/badge/Analysis-K--Means_Clustering-blueviolet?style=for-the-badge)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Transformasi Data Transaksi Menjadi Strategi Bisnis Cerdas**
+<br>
+Aplikasi web modern untuk menganalisis performa armada menggunakan algoritma Data Mining.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+[Fitur Unggulan](#-fitur-unggulan) • [Instalasi](#-cara-instalasi) • [Panduan Penggunaan](#-panduan-penggunaan)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+</div>
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## ✨ Fitur Unggulan
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Aplikasi ini dirancang untuk mempermudah manajemen dalam mengambil keputusan berbasis data:
 
-## Laravel Sponsors
+*   📂 **Smart Import System**: Upload file Excel/CSV transaksi mentah, sistem otomatis merapikan data pelanggan dan kendaraan.
+*   🧠 **Automated K-Means Analysis**: Algoritma cerdas yang mengelompokkan armada menjadi **Laris**, **Sedang**, dan **Kurang Diminati** secara otomatis.
+*   📊 **Dashboard Eksekutif**: Visualisasi tren penyewaan bulanan dan proporsi layanan (Lepas Kunci vs Driver) dalam grafik interaktif.
+*   📑 **Laporan Terstruktur**: Hasil analisis yang rapi dan siap digunakan untuk rapat manajemen.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🛠️ Persyaratan Sistem
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Sebelum memulai, pastikan komputer Anda telah terpasang:
+1.  **XAMPP / Laragon** (Pastikan PHP versi 8.2 ke atas).
+2.  **Composer** (Untuk mengelola dependensi aplikasi).
+3.  **Web Browser** (Google Chrome, Edge, atau Firefox).
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🚀 Cara Instalasi (Langkah demi Langkah)
 
-## Code of Conduct
+Ikuti panduan mudah ini untuk menjalankan aplikasi di komputer Anda:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 1. Download & Ekstrak
+Letakkan folder project ini di komputer Anda.
 
-## Security Vulnerabilities
+### 2. Siapkan Konfigurasi
+Buka terminal (Command Prompt atau Git Bash) di dalam folder project, lalu jalankan perintah ini untuk menyalin konfigurasi:
+```bash
+copy .env.example .env
+```
+*Tips: Buka file `.env` dengan Notepad/VS Code dan pastikan nama database sesuai (misal: `DB_DATABASE=sembodo_db`).*
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 3. Install Dependensi
+Download pustaka yang dibutuhkan aplikasi dengan perintah:
+```bash
+composer install
+```
 
-## License
+### 4. Setup Database Otomatis
+Buat database kosong bernama `sembodo_db` (atau sesuai .env) di phpMyAdmin, lalu kembali ke terminal dan jalankan:
+```bash
+# Membuat key keamanan
+php artisan key:generate
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Membuat tabel-tabel database
+php artisan migrate
+
+# Mengisi data master kategori kendaraan
+php artisan db:seed --class=KategoriSeeder
+```
+
+### 5. Jalankan Aplikasi 🏁
+Nyalakan server lokal dengan perintah:
+```bash
+php artisan serve
+```
+Sekarang buka browser dan kunjungi: **`http://localhost:8000`**
+
+---
+
+## 📖 Panduan Penggunaan
+
+### 1️⃣ Login & Dashboard
+Masuk menggunakan akun admin. Anda akan disambut Dashboard yang menampilkan ringkasan performa armada saat ini.
+
+### 2️⃣ Import Data Transaksi
+*   Masuk ke menu **Import / Upload**.
+*   Upload file CSV.
+*   Sistem akan otomatis memilah data:
+    *   Mencatat **Pelanggan** baru.
+    *   Mencatat **Kendaraan** dan plat nomornya.
+    *   Mencatat detail **Transaksi** (Layanan, Wilayah, Durasi).
+
+### 3️⃣ Jalankan Analisis
+*   Masuk ke menu **Analisis K-Means**.
+*   Tentukan jumlah klaster (Standard: 3 Klaster).
+*   Pilih atribut analisis (Frekuensi Sewa & Total Unit).
+*   Klik **"Proses Analisis"**.
+
+### 4️⃣ Lihat Hasil & Laporan
+Hasil pengelompokan akan muncul. Anda bisa melihat mobil mana yang menjadi "Primadona" (Laris) dan mana yang perlu dievaluasi. Data ini tersimpan dan bisa dilihat kapan saja di menu **Laporan**.
+
+---
+
+<div align="center">
+    <p>Dikembangkan untuk <b>PT. Sembodo Rental Indonesia</b></p>
+    <p>Dibuat oleh <a href="https://github.com/Lotsoo" target="_blank" rel="noopener noreferrer">lotso</a></p>
+</div>
