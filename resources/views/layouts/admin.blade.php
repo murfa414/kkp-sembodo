@@ -77,11 +77,11 @@
             </a>
             
             <a href="{{ route('kmeans.index') }}" class="nav-link {{ Request::routeIs('kmeans.*') ? 'active' : '' }}">
-                <i class="fas fa-calculator"></i> Analisis K-Means
+                <i class="fas fa-calculator"></i> Analisis
             </a>
 
             <a href="{{ route('laporan.index') }}" class="nav-link {{ Request::routeIs('laporan.*') ? 'active' : '' }}">
-                <i class="fas fa-chart-bar"></i> Hasil & Laporan
+                <i class="fas fa-chart-bar"></i> Hasil Laporan
             </a>
         </nav>
 
@@ -90,7 +90,7 @@
             <form action="{{ route('logout') }}" method="POST">
                 @csrf {{-- Token Keamanan Wajib --}}
                 <button type="submit" class="btn btn-logout px-5 py-2 fw-bold shadow-sm border-0">
-                    LOGOUT
+                    Keluar
                 </button>
             </form>
         </div>

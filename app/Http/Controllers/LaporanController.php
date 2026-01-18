@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class LaporanController extends Controller
 {
@@ -163,4 +164,26 @@ class LaporanController extends Controller
             'top3'  => array_slice($clusterData, 0, 3) // Ambil 3 teratas buat list
         ];
     }
+
+    public function exportPDF()
+{
+    // Ambil data hasil analisis dari session (sama dengan method index)
+    if (!session()->has('kmeans_result')) {
+        return redirect()->route('laporan.index')->with('error', 'Data laporan belum tersedia untuk diekspor.');
+    }
+
+    $hasilAnalisis = session('kmeans_result');
+    $clusters = $hasilAnalisis['clusters'];
+
+    $laris       = $this->formatCluster($clusters[0] ?? []);
+    $sedang      = $this->formatCluster($clusters[1] ?? []);
+    $kurangLaris = $this->formatCluster($clusters[2] ?? []);
+
+    // Kirim data ke view khusus PDF
+    $pdf = PDF::loadView('laporan.pdf', compact('laris', 'sedang', 'kurangLaris'));
+
+    // Download file PDF dengan nama dinamis
+    return $pdf->download('laporan_kmeans_' . date('Ymd_His') . '.pdf');
+}
+
 }

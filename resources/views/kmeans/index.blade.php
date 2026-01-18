@@ -31,11 +31,11 @@
                     <div class="row mb-4">
                         {{-- KOLOM KIRI: PILIH ATRIBUT --}}
                         <div class="col-md-6">
-                            <label class="form-label fw-bold">Pilih Atribut (Variabel)</label>
+                            <label class="form-label fw-bold">Pilih Kriteria Analisis</label>
                             
                             <div class="border rounded p-3" style="background-color: #fff;">
                                 <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                                    <span class="text-muted"><i class="fas fa-list-ul me-2"></i> Atribut tersedia:</span>
+                                    <span class="text-muted"><i class="fas fa-list-ul me-2"></i> Kriteria tersedia:</span>
                                 </div>
                                 
                                 {{-- CHECKBOX 1: FREKUENSI (Value harus 'frekuensi') --}}
@@ -43,8 +43,8 @@
                                     <input class="form-check-input" type="checkbox" name="atribut[]" value="frekuensi" id="attr1"
                                         {{ (is_array(old('atribut')) && in_array('frekuensi', old('atribut'))) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="attr1">
-                                        Frekuensi Sewa
-                                        <small class="text-muted d-block" style="font-size: 0.75rem;">(Berdasarkan jumlah transaksi Armada)</small>
+                                        Jumlah Sewa
+                                        <small class="text-muted d-block" style="font-size: 0.75rem;">(Berdasarkan jumlah transaksi unit)</small>
                                     </label>
                                 </div>
                                 
@@ -53,7 +53,7 @@
                                     <input class="form-check-input" type="checkbox" name="atribut[]" value="total_unit" id="attr2"
                                         {{ (is_array(old('atribut')) && in_array('total_unit', old('atribut'))) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="attr2">
-                                        Total Unit
+                                        Jumlah Sewa Unit
                                         <small class="text-muted d-block" style="font-size: 0.75rem;">(Berdasarkan Jumlah Sewa unit keluar)</small>
                                     </label>
                                 </div>
@@ -62,7 +62,7 @@
 
                         {{-- KOLOM KANAN: INPUT KLASTER --}}
                         <div class="col-md-6">
-                            <label class="form-label fw-bold">Masukkan jumlah klaster (K)</label>
+                            <label class="form-label fw-bold">Masukkan Jumlah Kategori</label>
                             
                             <div class="input-group">
                                 <span class="input-group-text bg-white border-end-0"><i class="fas fa-layer-group text-muted"></i></span>
@@ -81,7 +81,7 @@
                     {{-- TOMBOL SUBMIT --}}
                     <button type="submit" class="btn w-100 py-3 fw-bold text-white shadow-sm" 
                             style="background-color: #4E73DF; border-radius: 8px; font-size: 1.1rem;">
-                        Jalankan Analisis K-Means
+                        Analisis
                     </button>
 
                 </form>
@@ -97,7 +97,7 @@
                     <i class="fas fa-times-circle position-absolute bottom-0 end-0 fa-2x text-secondary border border-white rounded-circle bg-white"></i>
                 </div>
                 
-                <h4 class="fw-bold text-dark mt-3">Pratinjau Grafik Belum Tersedia</h4>
+                <h4 class="fw-bold text-dark mt-3">Hasil Analisis Belum Tersedia</h4>
                 <p class="text-muted" style="max-width: 500px;">
                     Silakan jalankan analisis K-Means di panel atas untuk melihat grafik diagram tebar dan hasil pengelompokan.
                 </p>

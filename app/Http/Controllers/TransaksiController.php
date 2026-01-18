@@ -16,7 +16,7 @@ class TransaksiController extends Controller
         
         $previewData = [];
         if($dataExists) {
-            $previewData = Transaksi::latest()->take(5)->get();
+            $previewData = Transaksi::latest()->paginate(100);
         }
 
         return view('upload.index', compact('dataExists', 'previewData'));

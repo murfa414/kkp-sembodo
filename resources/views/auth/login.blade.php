@@ -14,7 +14,7 @@
 
     <style>
         body {
-            background-color: #1e1e24; /* Warna latar gelap sesuai mockup */
+            background-color: #9e999988; /* Warna latar gelap sesuai mockup */
             font-family: 'Poppins', sans-serif;
             height: 100vh;
             display: flex;
@@ -115,10 +115,10 @@
 
             {{-- INPUT username --}}
             <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
+                <label for="username" class="form-label">Nama Pengguna</label>
                 <input type="username" class="form-control @error('username') is-invalid @enderror" 
                        id="username" name="username" value="{{ old('username') }}" 
-                       placeholder="masukkan username" required autofocus>
+                       placeholder="masukkan nama pengguna" required autofocus>
                 
                 {{-- Pesan Error Validasi --}}
                 @error('username')

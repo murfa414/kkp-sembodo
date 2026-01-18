@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Beranda')
-@section('page-title', 'SEMBODO RENT A CAR')
+@section('page-title', 'Sembodo Rent A Car')
 
 @section('content')
 
@@ -18,9 +18,6 @@
                 {{-- Kolom Kiri: Teks & Tombol --}}
                 <div class="col-lg-8 mb-4 mb-lg-0 text-white">
                     <h3 class="fw-bold mb-3">Data Transaksi Belum Tersedia</h3>
-                    <p class="lead mb-4" style="color: rgba(255,255,255,0.85);">
-                        Sistem belum bisa menampilkan analisis performa armada, tren penyewaan bulanan, dan proporsi layanan karena belum ada data yang masuk.
-                    </p>
                     <a href="{{ route('upload.index') }}" class="btn btn-light px-4 py-2 fw-bold shadow-sm" style="color: #000000; border-radius: 50px;">
                         <i class="fas fa-file-upload me-2"></i> Impor Data Sekarang
                     </a>

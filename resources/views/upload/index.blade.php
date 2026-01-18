@@ -1,7 +1,33 @@
 @extends('layouts.admin')
 
 @section('title', 'Import Data')
-@section('page-title', 'UNGGAH FILE DATA TRANSAKSI')
+@section('page-title', 'Unggah File Data Transaksi')
+
+<style>
+.badge-lepas-kunci,
+.badge-dengan-driver {
+    display: inline-block; /* supaya ukuran sesuai konten */
+    white-space: nowrap;   /* supaya teks tidak pecah baris */
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #fff !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    max-width: 100%;       /* pastikan badge bisa menyusut */
+    overflow: hidden;
+    text-overflow: ellipsis; /* jika teks sangat panjang, tambahkan "..." */
+}
+.badge-lepas-kunci {
+    background-color: #0B5ED7;
+}
+.badge-dengan-driver {
+    background-color: #146C43;
+}
+
+</style>
+
+
 
 @section('content')
 
@@ -45,7 +71,7 @@
                      onclick="document.getElementById('fileInput').click()">
                     
                     <i class="fas fa-cloud-upload-alt fa-3x mb-3" style="color: #4E73DF;"></i>
-                    <h5 class="fw-bold text-dark">Klik di sini untuk mengunggah file</h5>
+                    <h5 class="fw-bold text-dark">Unggah File</h5>
                     <p class="text-muted small mb-0">Format yang didukung: .XLSX, .CSV (Maks. 10MB)</p>
                     
                     <input type="file" name="file" id="fileInput" class="d-none" onchange="validateFile(this, 'uploadForm')">
@@ -79,7 +105,7 @@
                 <div class="mt-4 border-top pt-3 d-flex gap-2">
                     <button class="btn btn-light btn-sm fw-bold px-3 shadow-sm border text-dark" 
                             onclick="document.getElementById('hiddenReupload').click()">
-                        Ubah File
+                        Edit File
                     </button>
                     <form action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data" id="reuploadForm">
                         @csrf
@@ -103,7 +129,7 @@
     <div class="card-body">
         @if($dataExists)
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="fw-bold text-primary"><i class="fas fa-table me-2"></i> Pratinjau Data Transaksi (5 Teratas)</h6>
+                <h6 class="fw-bold text-primary"><i class="fas fa-table me-2"></i> Tampilan Data Transaksi (100 Teratas)</h6>
             </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover align-middle">
@@ -111,7 +137,7 @@
                         <tr>
                             <th>Tanggal Sewa</th>
                             <th>Nama Penyewa</th>
-                            <th>Armada</th>
+                            <th>Unit</th>
                             <th>Layanan</th>
                             <th class="text-center">Jumlah Sewa</th>
                         </tr>
@@ -122,11 +148,11 @@
                             <td>{{ \Carbon\Carbon::parse($dt->tanggal_sewa)->format('d/m/Y') }}</td>
                             <td>{{ $dt->nama_penyewa }}</td>
                             <td>{{ $dt->jenis_armada }}</td>
-                            <td class="text-start align-middle">
+                            <td class="text-nowrap align-middle">
                                 @if($dt->layanan == 'Lepas Kunci')
-                                    <span class="badge rounded-pill px-3 py-2 fw-normal shadow-sm bg-primary">Lepas Kunci</span>
+                                    <span class="badge-lepas-kunci">Lepas Kunci</span>
                                 @else
-                                    <span class="badge rounded-pill px-3 py-2 fw-normal shadow-sm bg-info text-dark">Dengan Driver</span>
+                                    <span class="badge-dengan-driver">Dengan Driver</span>
                                 @endif
                             </td>
                             <td class="text-center fw-bold">{{ $dt->jumlah_sewa }}</td>
@@ -134,6 +160,10 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                <div class="mt-3">
+                    {{ $previewData->links('pagination::bootstrap-5') }}
+                </div>
                 <div class="text-muted small fst-italic mt-2">
                     *Hanya menampilkan 5 data terbaru dari basis data.
                 </div>
@@ -141,7 +171,7 @@
         @else
             <div class="d-flex flex-column justify-content-center align-items-center h-100 py-5">
                 <i class="fas fa-table fa-4x mb-3 text-secondary" style="opacity: 0.3;"></i>
-                <h5 class="fw-bold text-secondary">Pratinjau Data Belum Tersedia</h5>
+                <h5 class="fw-bold text-secondary">Tampilan Data Belum Tersedia</h5>
                 <p class="text-muted">Silakan unggah file di panel atas untuk melihat isi data transaksi.</p>
             </div>
         @endif

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transaksis', function (Blueprint $table) {
+        Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal_sewa')->nullable();
             $table->string('nama_penyewa')->nullable(); // atau Customer
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaksis');
+        Schema::dropIfExists('transaksi');
     }
 };
