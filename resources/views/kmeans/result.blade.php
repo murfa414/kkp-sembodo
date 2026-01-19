@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Hasil K-Means')
-@section('page-title', 'HASIL ANALISIS KLASTERISASI')
+@section('page-title', 'Hasil Analisis Kategori')
 
 @section('content')
 
@@ -9,8 +9,8 @@
     <div class="col-12 mb-4">
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 fw-bold text-primary"><i class="fas fa-chart-scatter me-2"></i> Grafik Persebaran Data (Scatter Plot)</h6>
-                <span class="badge bg-success">Proses Selesai pada Iterasi ke-{{ $iterasi }}</span>
+                <h6 class="m-0 fw-bold text-primary"><i class="fas fa-chart-scatter me-2"></i> Grafik Persebaran Data</h6>
+                {{-- <span class="badge bg-success">Proses Selesai pada perulangan ke-{{ $iterasi }}</span> --}}
             </div>
             <div class="card-body">
                 <div id="kmeansChart" style="height: 400px;"></div>
@@ -21,8 +21,8 @@
     <div class="col-12">
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 fw-bold text-primary "><i class="fas fa-table me-2"></i> Detail Anggota Klaster</h6>
-                <small class="text-muted fst-italic"><i></i> *Klik judul kolom untuk mengurutkan</small> 
+                <h6 class="m-0 fw-bold text-primary "><i class="fas fa-table me-2"></i> Detail Anggota Kategori</h6>
+                {{-- <small class="text-muted fst-italic"><i></i> *Klik judul kolom untuk mengurutkan</small>  --}}
                 {{-- class="fas fa-sort me-1" --}}
             </div>
             <div class="card-body p-0">
@@ -33,27 +33,29 @@
                             <tr>
                                 {{-- Tambahkan onclick sortTable(...) dan ikon sort --}}
                                 <th class="px-4" style="cursor: pointer;" onclick="sortTable(0)">
-                                    Nama Armada <i class="fas fa-sort float-end mt-1 text-secondary"></i>
+                                    Nama Unit<i class="fas fa-sort float-end mt-1 text-secondary"></i>
                                 </th>
                                 <th class="text-center" style="cursor: pointer;" onclick="sortTable(1)">
                                     Frekuensi Sewa <i class="fas fa-sort float-end mt-1 text-secondary"></i>
                                 </th>
                                 <th class="text-center" style="cursor: pointer;" onclick="sortTable(2)">
-                                    Total Unit <i class="fas fa-sort float-end mt-1 text-secondary"></i>
+                                    Total Unit Keluar <i class="fas fa-sort float-end mt-1 text-secondary"></i>
                                 </th>
                                 
-                                <th class="text-center text-white" style="background-color: #4E73DF; cursor: pointer;" onclick="sortTable(3)">
+                                <th class="text-center text-white" style="cursor: pointer;" onclick="sortTable(3)">
                                     <i></i> Lepas Kunci <i class="fas fa-sort float-end mt-1 text-white-50"></i>
                                 </th>
                                 
-                                <th class="text-center text-white" style="background-color: #36B9CC; cursor: pointer;" onclick="sortTable(4)">
+                                <th class="text-center text-white" style="cursor: pointer;" onclick="sortTable(4)">
                                     <i></i> Dengan Driver <i class="fas fa-sort float-end mt-1 text-white-50"></i>
                                 </th>
                                 
-                                <th class="text-center" style="cursor: pointer;" onclick="sortTable(5)">
+                                {{-- <th class="text-center" style="cursor: pointer;" onclick="sortTable(5)">
                                     Klaster <i class="fas fa-sort float-end mt-1 text-secondary"></i>
+                                </th> --}}
+                                <th class="text-center" style="cursor: pointer;" onclick="sortTable(5)">
+                                    Keterangan <i class="fas fa-sort float-end mt-1 text-secondary"></i>
                                 </th>
-                                <th class="text-center">Keterangan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,24 +65,24 @@
                                     
                                     {{-- Tambahkan data-val untuk sorting angka yang akurat --}}
                                     <td class="text-center" data-val="{{ $data['c1'] }}">{{ $data['c1'] }} kali</td>
-                                    <td class="text-center fw-bold" data-val="{{ $data['c2'] }}">{{ $data['c2'] }} unit</td>
+                                    <td class="text-center" data-val="{{ $data['c2'] }}">{{ $data['c2'] }} unit</td>
                                     
-                                    <td class="text-center table-primary border-start border-white text-primary fw-bold" data-val="{{ $data['lepas_kunci'] }}">
+                                    <td class="text-center" data-val="{{ $data['lepas_kunci'] }}">
                                         @if($data['lepas_kunci'] > 0)
                                             {{ $data['lepas_kunci'] }}
                                         @else
                                             <span class="text-muted opacity-50">-</span>
                                         @endif
                                     </td>
-                                    
-                                    <td class="text-center table-info border-end border-white text-info fw-bold" style="color: #2c9faf !important;" data-val="{{ $data['driver'] }}">
+
+                                    <td class="text-center" data-val="{{ $data['driver'] }}">
                                         @if($data['driver'] > 0)
                                             {{ $data['driver'] }}
                                         @else
                                             <span class="text-muted opacity-50">-</span>
                                         @endif
                                     </td>
-
+{{-- 
                                     <td class="text-center" data-val="{{ $data['klaster'] }}">
                                         @php
                                             $colors = ['bg-primary', 'bg-warning text-dark', 'bg-danger'];
@@ -89,12 +91,18 @@
                                         <span class="badge {{ $bg }} rounded-pill px-3">
                                             Klaster {{ $data['klaster'] + 1 }}
                                         </span>
-                                    </td>
+                                    </td> --}}
                                     
-                                    <td class="text-center text-muted small">
-                                        @if($data['klaster'] == 0) <span class="fw-bold text-primary">Laris</span>
-                                        @elseif($data['klaster'] == 1) <span class="fw-bold text-warning">Sedang</span>
-                                        @else <span class="fw-bold text-danger">Kurang Laris</span>
+                                    <td class="text-center" data-val="{{ $data['klaster'] }}">
+                                        @if($data['klaster'] == 0) 
+                                            {{-- Laris: Warna Biru --}}
+                                            <span class="badge bg-primary rounded-pill px-3">Laris</span>
+                                        @elseif($data['klaster'] == 1) 
+                                            {{-- Sedang: Warna Kuning (Pakai text-dark biar tulisan kebaca) --}}
+                                            <span class="badge bg-warning text-dark rounded-pill px-3">Sedang</span>
+                                        @else 
+                                            {{-- Kurang Laris: Warna Merah --}}
+                                            <span class="badge bg-danger rounded-pill px-3">Kurang Laris</span>
                                         @endif
                                     </td>
                                 </tr>
@@ -119,7 +127,7 @@
     var clusters = @json($clusters);
     var seriesData = [];
     var colors = ['#4E73DF', '#F6C23E', '#E74A3B', '#36B9CC', '#1CC88A'];
-    var clusterNames = ['Laris (Klaster 1)', 'Sedang (Klaster 2)', 'Kurang Laris (Klaster 3)', 'Klaster 4', 'Klaster 5'];
+    var clusterNames = ['Laris', 'Sedang', 'Kurang Laris'];
 
     Object.keys(clusters).forEach(function(key, index) {
         var dataPoints = clusters[key].map(function(item) {

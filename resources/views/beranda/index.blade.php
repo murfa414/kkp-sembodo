@@ -75,7 +75,7 @@
 
                     {{-- Judul & Subjudul Tumpuk ke Bawah --}}
                     <div class="mb-4">
-                        <h5 class="fw-bold mb-1" style="text-decoration: underline; text-decoration-color: #333;">Performa Armada</h5>
+                        <h5 class="fw-bold mb-1" style="text-decoration: underline; text-decoration-color: #333;">Performa Unit</h5>
                         <small class="text-muted">Performa berdasarkan rata-rata frekuensi sewa dan total unit.</small>
                     </div>
 

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Laporan')
-@section('page-title', 'Hasil Laporan')
+@section('page-title', 'Hasil dan Laporan')
 
 @section('content')
 
@@ -74,9 +74,9 @@
 
 
     <div class="row">
-        <a href="{{ route('laporan.pdf') }}" class="btn btn-primary mb-3" target="_blank">
-    <i class="fas fa-file-pdf"></i> Unduh Laporan PDF
-</a>
+        <a href="{{ route('laporan.pdf') }}" class="btn btn-dark mb-3 fw-bold px-4" target="_blank">
+            <i class="fas fa-file-pdf me-2"></i> Unduh Laporan
+        </a>
 
         
         {{-- CARD 1: KURANG LARIS (MERAH) --}}

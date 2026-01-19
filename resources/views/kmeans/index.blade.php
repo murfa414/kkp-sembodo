@@ -1,106 +1,75 @@
 @extends('layouts.admin')
 
 @section('title', 'Analisis K-Means')
-@section('page-title', 'Konfigurasi Cluster')
+@section('page-title', 'Analisis Kategori Unit')
 
 @section('content')
 
+{{-- Style Tambahan untuk Animasi & Gradasi --}}
 <style>
-    /* Hilangkan tombol panah di input number Chrome, Safari, Edge, Opera */
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
+    .hover-scale { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .hover-scale:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 1rem 3rem rgba(21, 28, 49, 0.25)!important; }
+    
+    .bg-soft-gradient { background: linear-gradient(135deg, #eef2fa 0%, #e0eafc 100%); }
+    .btn-gradient-primary { 
+        background: linear-gradient(to right, #4e73df 0%, #224abe 100%); 
+        border: none; 
     }
-    /* Hilangkan tombol panah di Firefox */
-    input[type=number] {
-        -moz-appearance: textfield;
+    .btn-gradient-primary:hover { 
+        background: linear-gradient(to right, #224abe 0%, #4e73df 100%); 
     }
+    
+    /* Animasi Pulse Halus pada Ikon */
+    @keyframes pulse-soft {
+        0% { box-shadow: 0 0 0 0 rgba(78, 115, 223, 0.2); }
+        70% { box-shadow: 0 0 0 15px rgba(78, 115, 223, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(78, 115, 223, 0); }
+    }
+    .icon-pulse { animation: pulse-soft 2s infinite; }
 </style>
 
-<div class="row">
-    <div class="col-12">
+<div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="col-12 col-md-10 col-lg-7">
 
-        {{-- FORM KONFIGURASI --}}
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-body p-4">
+        {{-- CARD UTAMA --}}
+        <div class="card border-0 shadow-lg mb-4 text-center rounded-5 position-relative overflow-hidden bg-white">
+            
+            {{-- Hiasan Garis Atas --}}
+            <div class="position-absolute top-0 start-0 w-100" style="height: 6px; background: linear-gradient(90deg, #571212, #2c3a63);"></div>
+
+            <div class="card-body p-5">
                 
-                <form action="{{ route('kmeans.process') }}" method="POST" autocomplete="off">
-                    @csrf
-                    
-                    <div class="row mb-4">
-                        {{-- KOLOM KIRI: PILIH ATRIBUT --}}
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Pilih Kriteria Analisis</label>
-                            
-                            <div class="border rounded p-3" style="background-color: #fff;">
-                                <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                                    <span class="text-muted"> Kriteria tersedia:</span>
-                                </div>
-                                
-                                {{-- CHECKBOX 1: FREKUENSI (Value harus 'frekuensi') --}}
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="atribut[]" value="frekuensi" id="attr1"
-                                        {{ (is_array(old('atribut')) && in_array('frekuensi', old('atribut'))) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="attr1">
-                                        Jumlah Sewa
-                                        <small class="text-muted d-block" style="font-size: 0.75rem;">(Berdasarkan jumlah transaksi unit)</small>
-                                    </label>
-                                </div>
-                                
-                                {{-- CHECKBOX 2: TOTAL UNIT (Value harus 'total_unit') --}}
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="atribut[]" value="total_unit" id="attr2"
-                                        {{ (is_array(old('atribut')) && in_array('total_unit', old('atribut'))) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="attr2">
-                                        Jumlah Sewa Unit
-                                        <small class="text-muted d-block" style="font-size: 0.75rem;">(Berdasarkan Jumlah Sewa unit keluar)</small>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- KOLOM KANAN: INPUT KLASTER --}}
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Masukkan Jumlah Kategori</label>
-                            
-                            <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0"><i class="fas fa-layer-group text-muted"></i></span>
-                                <input type="number" 
-                                    name="jumlah_klaster" 
-                                    class="form-control" 
-                                    placeholder="Contoh: 3" 
-                                    value="{{ old('jumlah_klaster') == 0 ? '' : old('jumlah_klaster') }}"> 
-                            </div>
-                            {{-- <div class="form-text text-muted fst-italic mt-2">
-                                Disarankan 3 klaster (Laris, Sedang, Kurang Laris).
-                            </div> --}}
-                        </div>
+                <div class="mb-5 mt-2">
+                    {{-- Ikon Besar dengan Background Soft --}}
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-4 icon-pulse bg-soft-gradient" 
+                         style="width: 130px; height: 130px;">
+                        <i class="fas fa-chart-line fa-4x"></i>
                     </div>
 
-                    {{-- TOMBOL SUBMIT --}}
-                    <button type="submit" class="btn w-100 py-3 fw-bold text-white shadow-sm" 
-                            style="background-color: #4E73DF; border-radius: 8px; font-size: 1.1rem;">
-                        Analisis
+                    <h3 class="fw-bolder text-dark mb-3">Analisis Kategori Unit</h3>
+                    
+                    <p class="text-muted mx-auto lh-lg fs-6" style="max-width: 550px;">
+                        Sistem akan mengategorikan unit secara otomatis menjadi 
+                        <span class="badge bg-primary rounded-pill px-3 shadow-sm">Laris</span>, 
+                        <span class="badge bg-warning rounded-pill px-3 shadow-sm" style="color: black">Sedang</span>, dan 
+                        <span class="badge bg-danger rounded-pill px-3 shadow-sm">Kurang Laris</span> 
+                        berdasarkan data frekuensi sewa dan total unit keluar.
+                    </p>
+                </div>
+
+                <form action="{{ route('kmeans.process') }}" method="POST">
+                    @csrf
+                    
+                    {{-- INPUT TERSEMBUNYI (Fixed) --}}
+                    <input type="hidden" name="atribut[]" value="frekuensi">
+                    <input type="hidden" name="atribut[]" value="total_unit">
+                    <input type="hidden" name="jumlah_klaster" value="3">
+
+                    {{-- TOMBOL ACTION CANTIK --}}
+                    <button type="submit" class="btn btn-gradient-primary btn-lg px-5 py-3 rounded-pill fw-bold shadow-lg hover-scale w-100" style="max-width: 300px; color: white">
+                        <i></i> Analisis
                     </button>
-
                 </form>
-            </div>
-        </div>
-
-        {{-- AREA KOSONG UNTUK GRAFIK (PLACEHOLDER) --}}
-        <div class="card border-0 shadow-sm" style="min-height: 300px;">
-            <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
-                
-                <div class="mb-3 position-relative">
-                    <i class="fas fa-table fa-5x text-secondary opacity-25"></i>
-                    <i class="fas fa-times-circle position-absolute bottom-0 end-0 fa-2x text-secondary border border-white rounded-circle bg-white"></i>
-                </div>
-                
-                <h4 class="fw-bold text-dark mt-3">Hasil Analisis Belum Tersedia</h4>
-                <p class="text-muted" style="max-width: 500px;">
-                    Silakan jalankan analisis K-Means di panel atas untuk melihat grafik diagram tebar dan hasil pengelompokan.
-                </p>
 
             </div>
         </div>
@@ -108,59 +77,30 @@
     </div>
 </div>
 
-
-{{-- MODAL ERROR VALIDASI (Pop Up Otomatis jika error) --}}
+{{-- MODAL ERROR --}}
 @if($errors->any())
-<div class="modal fade" id="modalValidasiKmeans" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="modalValidasiKmeans" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg position-relative">
-            
-            {{-- Tombol Close Manual --}}
-            <button type="button" class="btn-close position-absolute top-0 end-0 m-3" 
-                    onclick="tutupModal('modalValidasiKmeans')" 
-                    style="z-index: 1056; cursor: pointer;"></button>
-
-            <div class="modal-body text-center py-5">
-                <div class="mb-3 text-danger">
-                    <i class="fas fa-exclamation-circle fa-5x"></i>
+        <div class="modal-content border-0 shadow rounded-4">
+            <div class="modal-body text-center p-5">
+                <div class="text-danger mb-3 bg-soft-danger d-inline-block p-3 rounded-circle" style="background-color: #ffeaea;">
+                    <i class="fas fa-exclamation-triangle fa-3x"></i>
                 </div>
-                
-                <h4 class="fw-bold mb-3 text-danger">Gagal Memproses</h4>
-                
-                <div class="text-muted px-4 text-start d-inline-block">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li class="mb-1">{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+                <h4 class="fw-bold mb-2">Ops! Ada Masalah</h4>
+                <ul class="list-unstyled text-muted small mb-4">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn btn-light rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>
 </div>
-
-{{-- SCRIPT --}}
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        bukaModal('modalValidasiKmeans');
+        new bootstrap.Modal(document.getElementById('modalValidasiKmeans')).show();
     });
-
-    function bukaModal(idModal) {
-        var myModal = new bootstrap.Modal(document.getElementById(idModal));
-        myModal.show();
-    }
-
-    function tutupModal(idModal) {
-        var modalEl = document.getElementById(idModal);
-        var modalInstance = bootstrap.Modal.getInstance(modalEl);
-        
-        if (modalInstance) {
-            modalInstance.hide();
-        } else {
-            var myModal = new bootstrap.Modal(modalEl);
-            myModal.hide();
-        }
-    }
 </script>
 @endif
 

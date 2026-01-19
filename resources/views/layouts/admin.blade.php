@@ -81,7 +81,7 @@
             </a>
 
             <a href="{{ route('laporan.index') }}" class="nav-link {{ Request::routeIs('laporan.*') ? 'active' : '' }}">
-                <i class="fas fa-chart-bar"></i> Hasil Laporan
+                <i class="fas fa-chart-bar"></i> Hasil dan Laporan
             </a>
         </nav>
 
