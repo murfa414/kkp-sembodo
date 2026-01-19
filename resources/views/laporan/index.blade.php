@@ -14,11 +14,11 @@
             <div class="row align-items-center">
                 <div class="col-lg-8 mb-4 mb-lg-0 text-white">
                     <h3 class="fw-bold mb-3 text-white">Laporan Belum Tersedia</h3>
-                    <p class="lead mb-4 text-white" style="opacity: 0.85;">
+                    {{-- <p class="lead mb-4 text-white" style="opacity: 0.85;">
                         Sistem belum dapat menampilkan pengelompokan armada karena proses analisis belum dijalankan.
-                    </p>
+                    </p> --}}
                     <a href="{{ route('kmeans.index') }}" class="btn btn-light px-4 py-2 fw-bold shadow-sm" style="color: #000000; border-radius: 50px;">
-                        <i class="fas fa-calculator me-2"></i> Jalankan Analisis K-Means
+                        <i class="fas fa-calculator me-2"></i>Analisis
                     </a>
                 </div>
                 {{-- <div class="col-lg-4 text-center d-none d-lg-block">

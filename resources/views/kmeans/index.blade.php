@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Analisis K-Means')
-@section('page-title', 'KONFIGURASI KLASTERISASI')
+@section('page-title', 'Konfigurasi Cluster')
 
 @section('content')
 
@@ -35,7 +35,7 @@
                             
                             <div class="border rounded p-3" style="background-color: #fff;">
                                 <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                                    <span class="text-muted"><i class="fas fa-list-ul me-2"></i> Kriteria tersedia:</span>
+                                    <span class="text-muted"> Kriteria tersedia:</span>
                                 </div>
                                 
                                 {{-- CHECKBOX 1: FREKUENSI (Value harus 'frekuensi') --}}
@@ -72,9 +72,9 @@
                                     placeholder="Contoh: 3" 
                                     value="{{ old('jumlah_klaster') == 0 ? '' : old('jumlah_klaster') }}"> 
                             </div>
-                            <div class="form-text text-muted fst-italic mt-2">
+                            {{-- <div class="form-text text-muted fst-italic mt-2">
                                 Disarankan 3 klaster (Laris, Sedang, Kurang Laris).
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
 

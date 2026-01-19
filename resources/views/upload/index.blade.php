@@ -83,11 +83,11 @@
             <div class="p-4" style="border: 2px dashed #4E73DF; background-color: #F8F9FC; border-radius: 15px;">
                 <div class="d-flex align-items-center">
                     <div class="me-4 text-center">
-                        <i class="fas fa-file-excel fa-4x text-success"></i>
+                        <i class="fas fa-file fa-4x text-success"></i>
                     </div>
                     <div class="flex-grow-1">
                         <div class="d-flex align-items-center mb-1">
-                            <h5 class="fw-bold text-dark mb-0 me-2">File Selesai Diunggah</h5>
+                            <h5 class="fw-bold text-dark mb-0 me-2">Selesai Diunggah</h5>
                             <i class="fas fa-check-circle text-success fa-lg"></i>
                         </div>
                         <p class="fw-bold text-primary mb-2">
@@ -96,9 +96,9 @@
                         <div class="progress" style="height: 10px; width: 100%; max-width: 400px; border-radius: 5px;">
                             <div class="progress-bar bg-success" role="progressbar" style="width: 100%;"></div>
                         </div>
-                        <small class="text-muted mt-1 d-block">
+                        {{-- <small class="text-muted mt-1 d-block">
                             Ukuran: {{ session('ukuran_file_aktual', 'Data Tersimpan') }}
-                        </small>
+                        </small> --}}
                     </div>
                 </div>
 
@@ -129,7 +129,7 @@
     <div class="card-body">
         @if($dataExists)
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="fw-bold text-primary"><i class="fas fa-table me-2"></i> Tampilan Data Transaksi (100 Teratas)</h6>
+                <h6 class="fw-bold text-primary"><i class="fas fa-table me-2"></i> Tampilan Data Transaksi</h6>
             </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover align-middle">
@@ -164,9 +164,9 @@
                 <div class="mt-3">
                     {{ $previewData->links('pagination::bootstrap-5') }}
                 </div>
-                <div class="text-muted small fst-italic mt-2">
+                {{-- <div class="text-muted small fst-italic mt-2">
                     *Hanya menampilkan 5 data terbaru dari basis data.
-                </div>
+                </div> --}}
             </div>
         @else
             <div class="d-flex flex-column justify-content-center align-items-center h-100 py-5">

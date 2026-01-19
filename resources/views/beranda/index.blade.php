@@ -44,12 +44,12 @@
                 
                 <div class="col-lg-8 mb-4 mb-lg-0 text-white">
                     <h3 class="fw-bold mb-3 text-white" style="text-shadow: 0 2px 4px rgba(0,0,0,0.1);">Data Siap Dianalisis</h3>
-                    <p class="lead mb-4 text-white" style="opacity: 0.9;">
+                    {{-- <p class="lead mb-4 text-white" style="opacity: 0.9;">
                         Data transaksi telah diunggah, namun sistem belum melakukan analisis K-Means.<br>
                         Silakan jalankan proses analisis untuk melihat Dashboard Performa Armada.
-                    </p>
+                    </p> --}}
                     <a href="{{ route('kmeans.index') }}" class="btn btn-light px-4 py-2 fw-bold shadow-sm" style="color: #000000; border-radius: 50px;">
-                        <i class="fas fa-calculator me-2"></i> Jalankan Analisis K-Means
+                        <i class="fas fa-calculator me-2"></i>Analisis
                     </a>
                 </div>
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Sembodo Rent a Car</title>
+    <title>Masuk - Sembodo Rent a Car</title>
     
     {{-- Bootstrap 5 CSS --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -24,7 +24,7 @@
         }
 
         .login-title {
-            color: #ffffff;
+            color: #000000;
             font-weight: 700;
             letter-spacing: 1px;
             font-size: 2rem;
@@ -87,7 +87,7 @@
 
         .footer-text {
             margin-top: 3rem;
-            color: #adb5bd;
+            color: #000000;
             font-size: 0.85rem;
             text-align: center;
         }
@@ -96,7 +96,7 @@
 <body>
 
     {{-- JUDUL DI ATAS KARTU --}}
-    <div class="login-title">LOGIN</div>
+    <div class="login-title">Masuk</div>
 
     {{-- KARTU LOGIN --}}
     <div class="card card-login">
