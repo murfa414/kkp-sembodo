@@ -1,81 +1,125 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sembodo Rent - @yield('title')</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (Primary) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        body { background-color: #F3F4F6; font-family: sans-serif; }
-        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
         /* Sidebar Style */
         .sidebar {
             width: 260px;
             height: 100vh;
-            background: #F8F9FC;
+            background: #ffffff;
             position: fixed;
-            top: 0; left: 0;
-            border-right: 1px solid #ddd;
-            padding-top: 20px;
-            z-index: 1000; 
+            top: 0;
+            left: 0;
+            border-right: 1px solid #e5e7eb;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
         }
-        
+
         /* Content Style */
         .main-content {
             margin-left: 260px;
-            padding: 30px;
+            padding: 24px;
+            min-height: 100vh;
+            background: #f3f4f6;
         }
 
         /* Menu Link Style */
-        .nav-link { color: #5a5c69; font-weight: 500; padding: 12px 20px; margin-bottom: 5px; }
-        .nav-link:hover { color: #4E73DF; background: #eaecf4; border-radius: 5px; }
-        .nav-link.active { color: #4E73DF; font-weight: bold; background: #eaecf4; border-radius: 5px; }
-        .nav-link i { width: 25px; text-align: center; margin-right: 10px; }
+        .nav-link {
+            color: #6b7280;
+            font-weight: 500;
+            padding: 12px 16px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
 
-        /* --- [PERBAIKAN LOGO & GARIS PEMBATAS] --- */
-        .sidebar-brand { 
-            text-align: center; 
-            margin-bottom: 20px;      /* Jarak dari garis ke menu di bawahnya */
-            border-bottom: 1px solid #ddd; /* <--- INI GARIS PEMBATASNYA */
-            padding-left: 15px;
-            padding-right: 15px;
+        .nav-link:hover {
+            color: #3b82f6;
+            background: #eff6ff;
         }
-        
-        .sidebar-brand img { 
+
+        .nav-link.active {
+            color: #3b82f6;
+            font-weight: 600;
+            background: #eff6ff;
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-brand {
+            text-align: center;
+            padding: 20px 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .sidebar-brand img {
             width: 100%;
-            max-width: 180px; 
+            max-width: 160px;
             height: auto;
-            object-fit: contain; 
+            object-fit: contain;
         }
-        
-        .btn-logout { background-color: #b91c1c; color: white; margin: 20px; border-radius: 5px; }
     </style>
 </head>
-<body>
 
-    <div class="sidebar d-flex flex-column">
-        
-        {{-- LOGO --}}
+<body class="bg-gray-100">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+        <!-- Logo -->
         <div class="sidebar-brand">
-            <div class="d-block">
-                <img src="{{ asset('images/cars/logo/logo_sembodo.png') }}" alt="Logo Sembodo">
-            </div>
+            <img src="{{ asset('images/cars/logo/logo_sembodo.png') }}" alt="Logo Sembodo">
         </div>
 
-        <nav class="nav flex-column px-3">
-            <span class="text-secondary small fw-bold mb-2 px-2">MENU UTAMA</span>
-            
+        <!-- Navigation -->
+        <nav class="flex-1 px-4 py-6">
+            <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 mb-3 block">Menu Utama</span>
+
             <a href="{{ route('beranda.index') }}" class="nav-link {{ Request::is('/') ? 'active' : '' }}">
                 <i class="fas fa-home"></i> Beranda
             </a>
-            
+
             <a href="{{ route('upload.index') }}" class="nav-link {{ Request::is('upload') ? 'active' : '' }}">
                 <i class="fas fa-file-upload"></i> Impor Data
             </a>
-            
+
             <a href="{{ route('kmeans.index') }}" class="nav-link {{ Request::routeIs('kmeans.*') ? 'active' : '' }}">
                 <i class="fas fa-calculator"></i> Analisis
             </a>
@@ -85,29 +129,37 @@
             </a>
         </nav>
 
-        <div class="text-center mt-auto">
-            {{-- Form Logout (Method POST) --}}
+        <!-- Logout Button -->
+        <div class="p-4 border-t border-gray-200">
             <form action="{{ route('logout') }}" method="POST">
-                @csrf {{-- Token Keamanan Wajib --}}
-                <button type="submit" class="btn btn-logout px-5 py-2 fw-bold shadow-sm border-0">
-                    Keluar
+                @csrf
+                <button type="submit"
+                    class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-lg transition flex items-center justify-center gap-2">
+                    <i class="fas fa-sign-out-alt"></i> Keluar
                 </button>
             </form>
         </div>
     </div>
 
+    <!-- Main Content -->
     <div class="main-content">
-        <div class="d-flex justify-content-between align-items-center bg-white p-3 rounded shadow-sm mb-4">
-            <h5 class="m-0 fw-bold text-dark">@yield('page-title')</h5>
-            <div class="user-profile fw-bold text-secondary">
-                <i class="fas fa-user-circle fa-lg me-2"></i> Admin
+        <!-- Header -->
+        <div class="bg-white p-4 rounded-xl shadow-sm mb-6 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gray-900">@yield('page-title')</h1>
+            <div class="flex items-center gap-2 text-gray-600 font-medium">
+                <i class="fas fa-user-circle text-lg"></i> Admin
             </div>
         </div>
 
+        <!-- Page Content -->
         @yield('content')
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <!-- ApexCharts (for charts) -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    @stack('scripts')
+
 </body>
+
 </html>

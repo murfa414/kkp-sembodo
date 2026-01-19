@@ -1,167 +1,53 @@
 @extends('layouts.admin')
 
-@section('title', 'Analisis K-Means')
-@section('page-title', 'KONFIGURASI KLASTERISASI')
+@section('title', 'Analisis K-Means')@section('page-title', 'Analisis Data Transaksi')@section('content')<!-- Main Analysis Card -->
+    <div class="max-w-2xl mx-auto mt-20">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-700">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-10 text-center">
+                <h2 class="text-3xl font-bold text-white mb-2">Siap Melakukan Analisis?</h2>
+                <p class="text-blue-100 text-lg">Sistem akan mengelompokkan mobil berdasarkan tingkat penyewaan secara otomatis.</p>
+            </div>
 
-@section('content')
-
-<style>
-    /* Hilangkan tombol panah di input number Chrome, Safari, Edge, Opera */
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-    /* Hilangkan tombol panah di Firefox */
-    input[type=number] {
-        -moz-appearance: textfield;
-    }
-</style>
-
-<div class="row">
-    <div class="col-12">
-
-        {{-- FORM KONFIGURASI --}}
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-body p-4">
-                
-                <form action="{{ route('kmeans.process') }}" method="POST" autocomplete="off">
-                    @csrf
-                    
-                    <div class="row mb-4">
-                        {{-- KOLOM KIRI: PILIH ATRIBUT --}}
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Pilih Kriteria Analisis</label>
-                            
-                            <div class="border rounded p-3" style="background-color: #fff;">
-                                <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                                    <span class="text-muted"><i class="fas fa-list-ul me-2"></i> Kriteria tersedia:</span>
-                                </div>
-                                
-                                {{-- CHECKBOX 1: FREKUENSI (Value harus 'frekuensi') --}}
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="atribut[]" value="frekuensi" id="attr1"
-                                        {{ (is_array(old('atribut')) && in_array('frekuensi', old('atribut'))) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="attr1">
-                                        Jumlah Sewa
-                                        <small class="text-muted d-block" style="font-size: 0.75rem;">(Berdasarkan jumlah transaksi unit)</small>
-                                    </label>
-                                </div>
-                                
-                                {{-- CHECKBOX 2: TOTAL UNIT (Value harus 'total_unit') --}}
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="atribut[]" value="total_unit" id="attr2"
-                                        {{ (is_array(old('atribut')) && in_array('total_unit', old('atribut'))) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="attr2">
-                                        Jumlah Sewa Unit
-                                        <small class="text-muted d-block" style="font-size: 0.75rem;">(Berdasarkan Jumlah Sewa unit keluar)</small>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- KOLOM KANAN: INPUT KLASTER --}}
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Masukkan Jumlah Kategori</label>
-                            
-                            <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0"><i class="fas fa-layer-group text-muted"></i></span>
-                                <input type="number" 
-                                    name="jumlah_klaster" 
-                                    class="form-control" 
-                                    placeholder="Contoh: 3" 
-                                    value="{{ old('jumlah_klaster') == 0 ? '' : old('jumlah_klaster') }}"> 
-                            </div>
-                            <div class="form-text text-muted fst-italic mt-2">
-                                Disarankan 3 klaster (Laris, Sedang, Kurang Laris).
-                            </div>
-                        </div>
+            <div class="p-10 text-center">
+                <div class="mb-8 flex justify-center">
+                    <div class="w-24 h-24 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center animate-pulse">
+                        <svg class="w-12 h-12 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                        </svg>
                     </div>
+                </div>
 
-                    {{-- TOMBOL SUBMIT --}}
-                    <button type="submit" class="btn w-100 py-3 fw-bold text-white shadow-sm" 
-                            style="background-color: #4E73DF; border-radius: 8px; font-size: 1.1rem;">
-                        Analisis
+                <p class="text-gray-600 dark:text-gray-400 mb-10 max-w-lg mx-auto leading-relaxed text-base">
+                    Klik tombol di bawah ini untuk memulai proses analisis. <br>
+                    Hasil pengelompokan (Laris, Sedang, Kurang Laris) akan langsung ditampilkan setelah proses selesai.
+                </p>
+
+                <form action="{{ route('kmeans.process') }}" method="POST">
+                    @csrf
+                    <button 
+                        type="submit" 
+                        class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-12 rounded-full transition duration-300 transform hover:scale-105 shadow-xl flex items-center justify-center gap-3 mx-auto text-lg"
+                    >
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Lakukan Analisis
                     </button>
 
+                    <!-- Hidden inputs for controller compatibility if needed later -->
+                    <input type="hidden" name="k" value="3">
+                    <input type="hidden" name="max_iterations" value="100">
+                    <input type="hidden" name="convergence_threshold" value="0.0001">
                 </form>
             </div>
         </div>
 
-        {{-- AREA KOSONG UNTUK GRAFIK (PLACEHOLDER) --}}
-        <div class="card border-0 shadow-sm" style="min-height: 300px;">
-            <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
-                
-                <div class="mb-3 position-relative">
-                    <i class="fas fa-table fa-5x text-secondary opacity-25"></i>
-                    <i class="fas fa-times-circle position-absolute bottom-0 end-0 fa-2x text-secondary border border-white rounded-circle bg-white"></i>
-                </div>
-                
-                <h4 class="fw-bold text-dark mt-3">Hasil Analisis Belum Tersedia</h4>
-                <p class="text-muted" style="max-width: 500px;">
-                    Silakan jalankan analisis K-Means di panel atas untuk melihat grafik diagram tebar dan hasil pengelompokan.
-                </p>
-
-            </div>
-        </div>
-
-    </div>
-</div>
-
-
-{{-- MODAL ERROR VALIDASI (Pop Up Otomatis jika error) --}}
-@if($errors->any())
-<div class="modal fade" id="modalValidasiKmeans" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg position-relative">
-            
-            {{-- Tombol Close Manual --}}
-            <button type="button" class="btn-close position-absolute top-0 end-0 m-3" 
-                    onclick="tutupModal('modalValidasiKmeans')" 
-                    style="z-index: 1056; cursor: pointer;"></button>
-
-            <div class="modal-body text-center py-5">
-                <div class="mb-3 text-danger">
-                    <i class="fas fa-exclamation-circle fa-5x"></i>
-                </div>
-                
-                <h4 class="fw-bold mb-3 text-danger">Gagal Memproses</h4>
-                
-                <div class="text-muted px-4 text-start d-inline-block">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li class="mb-1">{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
+        <div class="text-center mt-8">
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+                Mode analisis otomatis diaktifkan untuk kemudahan penggunaan.
+            </p>
         </div>
     </div>
-</div>
-
-{{-- SCRIPT --}}
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        bukaModal('modalValidasiKmeans');
-    });
-
-    function bukaModal(idModal) {
-        var myModal = new bootstrap.Modal(document.getElementById(idModal));
-        myModal.show();
-    }
-
-    function tutupModal(idModal) {
-        var modalEl = document.getElementById(idModal);
-        var modalInstance = bootstrap.Modal.getInstance(modalEl);
-        
-        if (modalInstance) {
-            modalInstance.hide();
-        } else {
-            var myModal = new bootstrap.Modal(modalEl);
-            myModal.hide();
-        }
-    }
-</script>
-@endif
 
 @endsection

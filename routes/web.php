@@ -5,7 +5,7 @@ use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\KMeansController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\BerandaController;
-use App\Http\Controllers\AuthController; 
+use App\Http\Controllers\AuthController;
 
 // RUTE KHUSUS TAMU (BELUM LOGIN)
 Route::middleware('guest')->group(function () {
@@ -15,7 +15,7 @@ Route::middleware('guest')->group(function () {
 
 // RUTE KHUSUS ADMIN (SUDAH LOGIN)
 Route::middleware('auth')->group(function () {
-    
+
     // 1. Tombol Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
 
     // 5. Hasil & Laporan
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-   Route::get('/laporan/pdf', [LaporanController::class, 'exportPDF'])->name('laporan.pdf');
+    Route::get('/laporan/pdf', [LaporanController::class, 'exportPDF'])->name('laporan.pdf');
 
 
 });
