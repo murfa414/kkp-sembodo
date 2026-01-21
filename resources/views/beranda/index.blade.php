@@ -197,7 +197,7 @@
                     
                     {{-- Judul & Subjudul Rapat --}}
                     <div class="mb-4">
-                        <h5 class="fw-bold mb-1" style="text-decoration: underline; text-decoration-color: #333;">Proporsi Layanan</h5>
+                        <h5 class="fw-bold mb-1" style="text-decoration: underline; text-decoration-color: #333;">Layanan</h5>
                         <small class="text-muted">Poin dihitung berdasarkan jumlah transaksi dan total unit yang disewa per hari.</small>
                     </div>
                     

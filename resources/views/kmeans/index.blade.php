@@ -48,12 +48,12 @@
 
                     <h3 class="fw-bolder text-dark mb-3">Analisis Kategori Unit</h3>
                     
-                    <p class="text-muted mx-auto lh-lg fs-6" style="max-width: 550px;">
-                        Sistem akan mengategorikan unit secara otomatis menjadi 
-                        <span class="badge bg-primary rounded-pill px-3 shadow-sm">Laris</span>, 
-                        <span class="badge bg-warning rounded-pill px-3 shadow-sm" style="color: black">Sedang</span>, dan 
-                        <span class="badge bg-danger rounded-pill px-3 shadow-sm">Kurang Laris</span> 
-                        berdasarkan data frekuensi sewa dan total unit keluar.
+                    <p class="text-muted mx-auto lh-lg fs-6 text-start" style="max-width: 500px;">
+                        Sistem akan secara otomatis mengelompokkan unit menjadi kategori 
+                        <span class="text-primary fw-bold">Laris</span> 
+                        <span class="text-warning fw-bold">Sedang</span> 
+                        <span class="text-danger fw-bold">Kurang Laris</span> 
+                        berdasarkan jumlah penyewaan.
                     </p>
                 </div>
 

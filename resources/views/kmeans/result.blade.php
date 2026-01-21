@@ -9,7 +9,7 @@
     <div class="col-12 mb-4">
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 fw-bold text-primary"><i class="fas fa-chart-scatter me-2"></i> Grafik Persebaran Data</h6>
+                <h6 class="m-0 fw-bold text-dark"><i class="fas fa-chart-scatter me-2"></i> Grafik Sebar Data</h6>
                 {{-- <span class="badge bg-success">Proses Selesai pada perulangan ke-{{ $iterasi }}</span> --}}
             </div>
             <div class="card-body">
