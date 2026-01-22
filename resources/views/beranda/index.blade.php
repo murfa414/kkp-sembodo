@@ -90,9 +90,9 @@
                                 if (str_contains($namaMobil, 'xpander')) $namaFile = 'mitsubishi_xpander_utimate.png';
                                 elseif (str_contains($namaMobil, 'innova')) $namaFile = 'toyota_innova_zenix.png';
                                 elseif (str_contains($namaMobil, 'fortuner')) $namaFile = 'toyota_fortuner_vrz.png';
-                                elseif (str_contains($namaMobil, 'alphard') || str_contains($namaMobil, 'vellfire')) $namaFile = 'alphard.png';
-                                elseif (str_contains($namaMobil, 'avanza') || str_contains($namaMobil, 'veloz')) $namaFile = 'avanza.png';
-                                elseif (str_contains($namaMobil, 'hiace')) $namaFile = 'hiace.png';
+                                elseif (str_contains($namaMobil, 'alphard') || str_contains($namaMobil, 'vellfire')) $namaFile = 'toyota_alphard.png';
+                                elseif (str_contains($namaMobil, 'avanza') || str_contains($namaMobil, 'veloz')) $namaFile = 'toyota_avanza.png';
+                                elseif (str_contains($namaMobil, 'hiace')) $namaFile = 'toyota_hiace.png';
                                 elseif (str_contains($namaMobil, 'pajero')) $namaFile = 'pajero.png';
                                 elseif (str_contains($namaMobil, 'mercy') || str_contains($namaMobil, 'mercedes')) $namaFile = 'mercy.png';
                                 elseif (str_contains($namaMobil, 'pariwisata')) $namaFile = 'bus_pariwisata.png';
