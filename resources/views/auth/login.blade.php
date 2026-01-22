@@ -96,7 +96,7 @@
 <body>
 
     {{-- JUDUL DI ATAS KARTU --}}
-    <div class="login-title">Masuk</div>
+    {{-- <div class="login-title">Masuk</div> --}}
 
     {{-- KARTU LOGIN --}}
     <div class="card card-login">

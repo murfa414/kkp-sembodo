@@ -90,7 +90,7 @@
                             <h5 class="fw-bold text-dark mb-0 me-2">Selesai Diunggah</h5>
                             <i class="fas fa-check-circle text-success fa-lg"></i>
                         </div>
-                        <p class="fw-bold text-primary mb-2">
+                        <p class="fw-bold text-dark mb-2">
                             {{ session('nama_file_aktual', 'DATASET TRANSAKSI SEMBODO.xlsx') }}
                         </p>
                         <div class="progress" style="height: 10px; width: 100%; max-width: 400px; border-radius: 5px;">
@@ -129,12 +129,12 @@
     <div class="card-body">
         @if($dataExists)
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="fw-bold text-primary"><i class="fas fa-table me-2"></i> Tampilan Data Transaksi</h6>
+                <h6 class="fw-bold text-dark">Tampilan Data Transaksi</h6>
             </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover align-middle">
                     <thead class="table-dark">
-                        <tr>
+                        <tr class="text-nowrap text-start align-middle">
                             <th>Tanggal Sewa</th>
                             <th>Nama Penyewa</th>
                             <th>Unit</th>

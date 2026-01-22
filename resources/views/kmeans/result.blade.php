@@ -21,14 +21,14 @@
     <div class="col-12">
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 fw-bold text-primary "><i class="fas fa-table me-2"></i> Detail Anggota Kategori</h6>
+                <h6 class="m-0 fw-bold text-dark">Detail Anggota Kategori</h6>
                 {{-- <small class="text-muted fst-italic"><i></i> *Klik judul kolom untuk mengurutkan</small>  --}}
                 {{-- class="fas fa-sort me-1" --}}
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     {{-- Tambahkan ID resultTable disini --}}
-                    <table class="table table-hover align-middle mb-0" id="resultTable">
+                    <table class="table table-striped align-middle mb-0" id="resultTable">
                         <thead class="table-dark">
                             <tr>
                                 {{-- Tambahkan onclick sortTable(...) dan ikon sort --}}
