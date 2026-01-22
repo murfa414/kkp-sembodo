@@ -26,7 +26,8 @@ class Transaksi extends Model
         'jumlah_sewa',
         'durasi',
         'total_harga',
-        'keterangan'
+        'keterangan',
+        'source_file'
     ];
 
     /**

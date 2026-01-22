@@ -24,8 +24,8 @@ class LaporanController extends Controller
 
             // KMeansController sudah mengurutkan: Index 0 = Laris, 1 = Sedang, 2 = Kurang
             // Kita pakai fungsi formatCluster yang sama biar Top 3-nya rapi
-            $laris       = $this->formatCluster($clusters[0] ?? []);
-            $sedang      = $this->formatCluster($clusters[1] ?? []);
+            $laris = $this->formatCluster($clusters[0] ?? []);
+            $sedang = $this->formatCluster($clusters[1] ?? []);
             $kurangLaris = $this->formatCluster($clusters[2] ?? []);
 
             return view('laporan.index', compact('laris', 'sedang', 'kurangLaris'));
@@ -36,8 +36,8 @@ class LaporanController extends Controller
         // 2. AMBIL DATA (Sama persis kayak KMeansController)
         // Kita ambil SEMUA atribut (Frekuensi & Total Unit) biar akurat
         $dataMentah = Transaksi::select(
-            'jenis_armada', 
-            DB::raw('count(*) as frekuensi'), 
+            'jenis_armada',
+            DB::raw('count(*) as frekuensi'),
             DB::raw('sum(jumlah_sewa) as total_unit')
         )->groupBy('jenis_armada')->get();
 
@@ -45,14 +45,14 @@ class LaporanController extends Controller
         foreach ($dataMentah as $row) {
             $dataArmada[] = [
                 'nama' => $row->jenis_armada,
-                'c1'   => $row->frekuensi,
-                'c2'   => $row->total_unit
+                'c1' => $row->frekuensi,
+                'c2' => $row->total_unit
             ];
         }
 
         // 3. JALANKAN K-MEANS OTOMATIS (Hardcode K=3)
-        $k = 3; 
-        
+        $k = 3;
+
         // Trik: Sort dulu biar centroid awal menyebar bagus (dari yang paling laku ke ga laku)
         // [MODIFIKASI] Sort berdasarkan Skor Gabungan (c1 + c2)
         $dataArmada = collect($dataArmada)->sortByDesc(function ($item) {
@@ -60,7 +60,7 @@ class LaporanController extends Controller
         })->values()->all();
 
         $totalData = count($dataArmada);
-        
+
         // [PERBAIKAN LOGIKA CENTROID]
         // Ambil 3 data (Atas, Tengah, Bawah) sebagai centroid awal agar sebaran merata
         // Ini mencegah kelompok "Laris" pecah suara
@@ -74,16 +74,16 @@ class LaporanController extends Controller
             // Fallback kalau datanya dikit banget (< 3 mobil)
             $centroids = array_slice($dataArmada, 0, $k);
         }
-        
-        $maxIterasi = 100; 
+
+        $maxIterasi = 100;
         $iterasi = 0;
         $converged = false;
-        $clusters = []; 
+        $clusters = [];
 
         while (!$converged && $iterasi < $maxIterasi) {
             $iterasi++;
             // Siapkan 3 wadah kosong
-            $clusters = array_fill(0, $k, []); 
+            $clusters = array_fill(0, $k, []);
 
             // Hitung Jarak
             foreach ($dataArmada as $mobil) {
@@ -109,12 +109,13 @@ class LaporanController extends Controller
                         'c2' => array_sum(array_column($anggota, 'c2')) / count($anggota)
                     ];
                 } else {
-                    $newCentroids[$index] = $centroids[$index]; 
+                    $newCentroids[$index] = $centroids[$index];
                 }
             }
 
-            if ($this->isCentroidsSame($centroids, $newCentroids)) $converged = true;
-            $centroids = $newCentroids; 
+            if ($this->isCentroidsSame($centroids, $newCentroids))
+                $converged = true;
+            $centroids = $newCentroids;
         }
 
         // 4. RANKING KLASTER (Penting! Biar labelnya gak ketuker)
@@ -135,23 +136,26 @@ class LaporanController extends Controller
         }
 
         // Kirim ke View dengan format rapi
-        $laris       = $this->formatCluster($rankedClusters[0] ?? []);
-        $sedang      = $this->formatCluster($rankedClusters[1] ?? []);
+        $laris = $this->formatCluster($rankedClusters[0] ?? []);
+        $sedang = $this->formatCluster($rankedClusters[1] ?? []);
         $kurangLaris = $this->formatCluster($rankedClusters[2] ?? []);
 
         return view('laporan.index', compact('laris', 'sedang', 'kurangLaris'));
     }
 
     // Fungsi Pembantu: Cek Centroid
-    private function isCentroidsSame($old, $new) {
+    private function isCentroidsSame($old, $new)
+    {
         foreach ($old as $i => $v) {
-            if ($v['c1'] != $new[$i]['c1'] || $v['c2'] != $new[$i]['c2']) return false;
+            if ($v['c1'] != $new[$i]['c1'] || $v['c2'] != $new[$i]['c2'])
+                return false;
         }
         return true;
     }
 
     // Fungsi Pembantu: Format Data & Ambil Top 3
-    private function formatCluster($clusterData) {
+    private function formatCluster($clusterData)
+    {
         // [MODIFIKASI] Urutkan anggota klaster berdasarkan SKOR GABUNGAN (Frekuensi + Total Unit) terbesar
         usort($clusterData, function ($a, $b) {
             $scoreA = $a['c1'] + $a['c2'];
@@ -161,29 +165,43 @@ class LaporanController extends Controller
 
         return [
             'count' => count($clusterData), // Jumlah Mobil
-            'top3'  => array_slice($clusterData, 0, 3) // Ambil 3 teratas buat list
+            'top3' => array_slice($clusterData, 0, 3) // Ambil 3 teratas buat list
         ];
     }
 
-    public function exportPDF()
-{
-    // Ambil data hasil analisis dari session (sama dengan method index)
-    if (!session()->has('kmeans_result')) {
-        return redirect()->route('laporan.index')->with('error', 'Data laporan belum tersedia untuk diekspor.');
+    public function exportPDF(Request $request)
+    {
+        // Ambil data hasil analisis dari session
+        if (!session()->has('kmeans_result')) {
+            return redirect()->route('laporan.index')->with('error', 'Data laporan belum tersedia untuk diekspor.');
+        }
+
+        $hasilAnalisis = session('kmeans_result');
+        $clusters = $hasilAnalisis['clusters'];
+
+        $laris = $this->formatCluster($clusters[0] ?? []);
+        $sedang = $this->formatCluster($clusters[1] ?? []);
+        $kurangLaris = $this->formatCluster($clusters[2] ?? []);
+
+        // Kirim data ke view khusus PDF
+        $pdf = PDF::loadView('laporan.pdf', compact('laris', 'sedang', 'kurangLaris'));
+
+        // Set paper size
+        $pdf->setPaper('A4', 'portrait');
+
+        // Cek mode: preview atau download
+        $mode = $request->get('mode', 'download');
+
+        // Generate filename dengan timezone Indonesia
+        $filename = 'laporan_kmeans_' . now()->setTimezone('Asia/Jakarta')->format('Ymd_His') . '.pdf';
+
+        if ($mode === 'preview') {
+            // Stream PDF (tampilkan di browser)
+            return $pdf->stream($filename);
+        } else {
+            // Download PDF
+            return $pdf->download($filename);
+        }
     }
-
-    $hasilAnalisis = session('kmeans_result');
-    $clusters = $hasilAnalisis['clusters'];
-
-    $laris       = $this->formatCluster($clusters[0] ?? []);
-    $sedang      = $this->formatCluster($clusters[1] ?? []);
-    $kurangLaris = $this->formatCluster($clusters[2] ?? []);
-
-    // Kirim data ke view khusus PDF
-    $pdf = PDF::loadView('laporan.pdf', compact('laris', 'sedang', 'kurangLaris'));
-
-    // Download file PDF dengan nama dinamis
-    return $pdf->download('laporan_kmeans_' . date('Ymd_His') . '.pdf');
-}
 
 }
