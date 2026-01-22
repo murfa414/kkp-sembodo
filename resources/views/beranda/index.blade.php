@@ -75,7 +75,7 @@
 
                     {{-- Judul & Subjudul Tumpuk ke Bawah --}}
                     <div class="mb-4">
-                        <h5 class="fw-bold mb-1" style="text-decoration: underline; text-decoration-color: #333;">Performa Unit</h5>
+                        <h5 class="fw-bold mb-1">Performa Unit</h5>
                         <small class="text-muted">Performa berdasarkan rata-rata frekuensi sewa dan total unit.</small>
                     </div>
 
@@ -186,7 +186,7 @@
             {{-- CARD 1: TREN PENYEWAAN BULANAN --}}
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body p-4">
-                    <h5 class="fw-bold mb-3" style="text-decoration: underline; text-decoration-color: #333;">Tren Penyewaan Bulanan</h5>
+                    <h5 class="fw-bold mb-3">Tren Penyewaan Bulanan</h5>
                     <div id="trendChart" style="height: 250px;"></div>
                 </div>
             </div>
@@ -197,7 +197,7 @@
                     
                     {{-- Judul & Subjudul Rapat --}}
                     <div class="mb-4">
-                        <h5 class="fw-bold mb-1" style="text-decoration: underline; text-decoration-color: #333;">Layanan</h5>
+                        <h5 class="fw-bold mb-1">Layanan</h5>
                         <small class="text-muted">Poin dihitung berdasarkan jumlah transaksi dan total unit yang disewa per hari.</small>
                     </div>
                     
