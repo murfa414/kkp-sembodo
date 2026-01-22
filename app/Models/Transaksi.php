@@ -15,6 +15,7 @@ class Transaksi extends Model
     protected $fillable = [
         'pelanggan_id',
         'kendaraan_id',
+        'kategori_id',
         'no_invoice',
         'tanggal_sewa',
         'nama_penyewa',
@@ -43,5 +44,11 @@ class Transaksi extends Model
     public function kendaraan()
     {
         return $this->belongsTo(Kendaraan::class, 'kendaraan_id');
+    }
+    
+        // Relasi: Transaksi punya satu Kategori
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'kategori_id');
     }
 }

@@ -93,7 +93,8 @@
                                         </span>
                                     </td> --}}
                                     
-                                    <td class="text-center" data-val="{{ $data['klaster'] }}">
+                                    {{-- UPDATE DISINI: Menggunakan c1 + c2 agar sorting sesuai skor gabungan --}}
+                                    <td class="text-center" data-val="{{ $data['c1'] + $data['c2'] }}">
                                         @if($data['klaster'] == 0) 
                                             {{-- Laris: Warna Biru --}}
                                             <span class="badge bg-primary rounded-pill px-3">Laris</span>

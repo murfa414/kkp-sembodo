@@ -9,17 +9,6 @@ class Kategori extends Model
 {
     use HasFactory;
 
-    protected $table = 'kategori';
-
-    protected $fillable = [
-        'nama'
-    ];
-
-    /**
-     * Relasi: Kategori memiliki banyak kendaraan
-     */
-    public function kendaraan()
-    {
-        return $this->hasMany(Kendaraan::class, 'kategori_id');
-    }
+    protected $table = 'kategori'; // Nama tabel (singular)
+    protected $fillable = ['nama']; // Kolomnya 'nama', bukan 'nama_kategori'
 }
