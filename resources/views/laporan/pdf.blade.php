@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Laporan Analisis Armada - PT. Sembodo Rental Indonesia</title>
+    <title>Laporan Analisis Unit - PT. Sembodo Rental Indonesia</title>
     <style>
         * {
             margin: 0;
@@ -274,7 +274,7 @@
 <body>
     <!-- HEADER -->
     <div class="header">
-        <div class="header-title">LAPORAN ANALISIS PERFORMA ARMADA</div>
+        <div class="header-title">LAPORAN ANALISIS PERFORMA Unit</div>
         <div class="header-info">
             <span>Tanggal Cetak: {{ \Carbon\Carbon::now('Asia/Jakarta')->locale('id')->translatedFormat('d F Y, H:i') }} WIB</span>
             <span>Perusahaan: PT. Sembodo Rent a Car</span>
@@ -285,7 +285,7 @@
     <div class="stats-container">
         <div class="stat-box">
             <div class="stat-number" style="color: #4E73DF;">{{ $laris['count'] }}</div>
-            <div class="stat-label">Armada Laris</div>
+            <div class="stat-label">Unit Laris</div>
         </div>
         <div class="stat-box">
             <div class="stat-number" style="color: #F6C23E;">{{ $sedang['count'] }}</div>
@@ -297,15 +297,16 @@
         </div>
     </div>
 
-    <!-- SECTION 1: ARMADA LARIS -->
+    <!-- SECTION 1: Unit LARIS -->
     <div class="section">
         <div class="section-header laris">
             <span class="section-header-icon">[PERFORMA TINGGI]</span>
-            ARMADA PALING LARIS
+            UNIT PALING LARIS
         </div>
         <div class="section-content">
             <p style="margin-bottom: 15px; color: #666;">
-                Armada dengan performa terbaik berdasarkan kombinasi frekuensi penyewaan dan total unit yang disewa.
+                Unit dengan performa terbaik berdasarkan kombinasi frekuensi penyewaan dan Total Unit Keluar yang disewa.
+                <br>
                 <strong>Rekomendasi:</strong> Pertahankan ketersediaan dan pertimbangkan untuk menambah unit.
             </p>
 
@@ -313,9 +314,9 @@
                 <thead>
                     <tr>
                         <th style="width: 50px;">Rank</th>
-                        <th>Nama Armada</th>
+                        <th>Nama Unit</th>
                         <th style="width: 100px; text-align: center;">Frekuensi</th>
-                        <th style="width: 100px; text-align: center;">Total Unit</th>
+                        <th style="width: 100px; text-align: center;">Total Unit Keluar</th>
                         <th style="width: 80px; text-align: center;">Skor</th>
                     </tr>
                 </thead>
@@ -342,7 +343,7 @@
             <div class="info-box">
                 <div class="info-box-title">💡 Insight Bisnis</div>
                 <div class="info-box-text">
-                    Armada kategori ini memiliki tingkat utilisasi tinggi. Pastikan unit selalu dalam kondisi prima dan
+                    Unit kategori ini memiliki tingkat utilisasi tinggi. Pastikan unit selalu dalam kondisi prima dan
                     siap disewa.
                     Pertimbangkan untuk menawarkan paket premium atau perpanjang kontrak dengan pelanggan loyal.
                 </div>
@@ -358,16 +359,16 @@
         </div>
         <div class="section-content">
             <p style="margin-bottom: 15px; color: #666;">
-                Armada dengan tingkat penyewaan menengah. Masih memiliki potensi untuk ditingkatkan performanya.
+                Unit dengan tingkat penyewaan menengah. Masih memiliki potensi untuk ditingkatkan performanya.
             </p>
 
             <table class="data-table">
                 <thead>
                     <tr>
                         <th style="width: 50px;">Rank</th>
-                        <th>Nama Armada</th>
+                        <th>Nama Unit</th>
                         <th style="width: 100px; text-align: center;">Frekuensi</th>
-                        <th style="width: 100px; text-align: center;">Total Unit</th>
+                        <th style="width: 100px; text-align: center;">Total Unit Keluar</th>
                         <th style="width: 80px; text-align: center;">Skor</th>
                     </tr>
                 </thead>
@@ -395,7 +396,7 @@
             <div class="info-box" style="border-left-color: #F6C23E;">
                 <div class="info-box-title" style="color: #b8860b;">📈 Rekomendasi</div>
                 <div class="info-box-text">
-                    Evaluasi strategi pemasaran untuk armada ini. Pertimbangkan promo khusus atau bundling dengan
+                    Evaluasi strategi pemasaran untuk Unit ini. Pertimbangkan promo khusus atau bundling dengan
                     layanan tambahan.
                 </div>
             </div>
@@ -410,7 +411,7 @@
         </div>
         <div class="section-content">
             <p style="margin-bottom: 15px; color: #666;">
-                Armada dengan tingkat penyewaan rendah. Memerlukan evaluasi dan strategi khusus untuk meningkatkan
+                Unit dengan tingkat penyewaan rendah. Memerlukan evaluasi dan strategi khusus untuk meningkatkan
                 performa.
             </p>
 
@@ -418,9 +419,9 @@
                 <thead>
                     <tr>
                         <th style="width: 50px;">Rank</th>
-                        <th>Nama Armada</th>
+                        <th>Nama Unit</th>
                         <th style="width: 100px; text-align: center;">Frekuensi</th>
-                        <th style="width: 100px; text-align: center;">Total Unit</th>
+                        <th style="width: 100px; text-align: center;">Total Unit Keluar</th>
                         <th style="width: 80px; text-align: center;">Skor</th>
                     </tr>
                 </thead>
@@ -450,7 +451,7 @@
                 <div class="info-box-text">
                     • Evaluasi kondisi fisik kendaraan dan lakukan perbaikan jika diperlukan<br>
                     • Pertimbangkan penyesuaian harga sewa atau paket promo agresif<br>
-                    • Analisis target pasar: apakah armada ini sesuai dengan kebutuhan pelanggan?<br>
+                    • Analisis target pasar: apakah Unit ini sesuai dengan kebutuhan pelanggan?<br>
                     • Jika performa tetap rendah, pertimbangkan untuk rotasi atau penggantian unit
                 </div>
             </div>

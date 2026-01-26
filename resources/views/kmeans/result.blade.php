@@ -6,11 +6,11 @@
 @section('content')
 
 <div class="row">
+    {{-- SCATTER CHART --}}
     <div class="col-12 mb-4">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <div class="card-header bg-white py-3 d-flex flex-wrap justify-content-between align-items-center">
                 <h6 class="m-0 fw-bold text-dark"><i class="fas fa-chart-scatter me-2"></i> Grafik Sebar Data</h6>
-                {{-- <span class="badge bg-success">Proses Selesai pada perulangan ke-{{ $iterasi }}</span> --}}
             </div>
             <div class="card-body">
                 <div id="kmeansChart" style="height: 400px;"></div>
@@ -18,41 +18,32 @@
         </div>
     </div>
 
+    {{-- RESULT TABLE --}}
     <div class="col-12">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <div class="card-header bg-white py-3">
                 <h6 class="m-0 fw-bold text-dark">Detail Anggota Kategori</h6>
-                {{-- <small class="text-muted fst-italic"><i></i> *Klik judul kolom untuk mengurutkan</small>  --}}
-                {{-- class="fas fa-sort me-1" --}}
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    {{-- Tambahkan ID resultTable disini --}}
                     <table class="table table-striped align-middle mb-0" id="resultTable">
-                        <thead class="table-dark">
+                        <thead class="table-dark sticky-top" style="z-index: 10;">
                             <tr>
-                                {{-- Tambahkan onclick sortTable(...) dan ikon sort --}}
                                 <th class="px-4" style="cursor: pointer;" onclick="sortTable(0)">
-                                    Nama Unit<i class="fas fa-sort float-end mt-1 text-secondary"></i>
+                                    Nama Unit <i class="fas fa-sort float-end mt-1 text-secondary"></i>
                                 </th>
                                 <th class="text-center" style="cursor: pointer;" onclick="sortTable(1)">
-                                    Frekuensi Sewa <i class="fas fa-sort float-end mt-1 text-secondary"></i>
+                                    Frekuensi <i class="fas fa-sort float-end mt-1 text-secondary"></i>
                                 </th>
-                                <th class="text-center" style="cursor: pointer;" onclick="sortTable(2)">
+                                <th class="text-center d-none d-md-table-cell" style="cursor: pointer;" onclick="sortTable(2)">
                                     Total Unit Keluar <i class="fas fa-sort float-end mt-1 text-secondary"></i>
                                 </th>
-                                
-                                <th class="text-center text-white" style="cursor: pointer;" onclick="sortTable(3)">
-                                    <i></i> Lepas Kunci <i class="fas fa-sort float-end mt-1 text-white-50"></i>
+                                <th class="text-center d-none d-lg-table-cell" style="cursor: pointer;" onclick="sortTable(3)">
+                                    Lepas Kunci <i class="fas fa-sort float-end mt-1 text-white-50"></i>
                                 </th>
-                                
-                                <th class="text-center text-white" style="cursor: pointer;" onclick="sortTable(4)">
-                                    <i></i> Dengan Driver <i class="fas fa-sort float-end mt-1 text-white-50"></i>
+                                <th class="text-center d-none d-lg-table-cell" style="cursor: pointer;" onclick="sortTable(4)">
+                                    Dengan Driver <i class="fas fa-sort float-end mt-1 text-white-50"></i>
                                 </th>
-                                
-                                {{-- <th class="text-center" style="cursor: pointer;" onclick="sortTable(5)">
-                                    Klaster <i class="fas fa-sort float-end mt-1 text-secondary"></i>
-                                </th> --}}
                                 <th class="text-center" style="cursor: pointer;" onclick="sortTable(5)">
                                     Keterangan <i class="fas fa-sort float-end mt-1 text-secondary"></i>
                                 </th>
@@ -61,48 +52,30 @@
                         <tbody>
                             @foreach($dataArmada as $data)
                                 <tr>
-                                    <td class="px-4 fw-bold">{{ $data['nama'] }}</td>
-                                    
-                                    {{-- Tambahkan data-val untuk sorting angka yang akurat --}}
+                                    <td class="px-4 fw-bold text-justify" style="text-align: justify; min-width: 200px;">{{ ucwords(strtolower($data['nama'])) }}</td>
                                     <td class="text-center" data-val="{{ $data['c1'] }}">{{ $data['c1'] }}</td>
-                                    <td class="text-center" data-val="{{ $data['c2'] }}">{{ $data['c2'] }}</td>
-                                    
-                                    <td class="text-center" data-val="{{ $data['lepas_kunci'] }}">
+                                    <td class="text-center d-none d-md-table-cell" data-val="{{ $data['c2'] }}">{{ $data['c2'] }}</td>
+                                    <td class="text-center d-none d-lg-table-cell" data-val="{{ $data['lepas_kunci'] }}">
                                         @if($data['lepas_kunci'] > 0)
                                             {{ $data['lepas_kunci'] }}
                                         @else
                                             <span class="text-muted opacity-50">-</span>
                                         @endif
                                     </td>
-
-                                    <td class="text-center" data-val="{{ $data['driver'] }}">
+                                    <td class="text-center d-none d-lg-table-cell" data-val="{{ $data['driver'] }}">
                                         @if($data['driver'] > 0)
                                             {{ $data['driver'] }}
                                         @else
                                             <span class="text-muted opacity-50">-</span>
                                         @endif
                                     </td>
-{{-- 
-                                    <td class="text-center" data-val="{{ $data['klaster'] }}">
-                                        @php
-                                            $colors = ['bg-primary', 'bg-warning text-dark', 'bg-danger'];
-                                            $bg = $colors[$data['klaster']] ?? 'bg-secondary';
-                                        @endphp
-                                        <span class="badge {{ $bg }} rounded-pill px-3">
-                                            Klaster {{ $data['klaster'] + 1 }}
-                                        </span>
-                                    </td> --}}
-                                    
                                     <td class="text-center" data-val="{{ $data['klaster'] }}">
                                         @if($data['klaster'] == 0) 
-                                            {{-- Laris: Warna Biru --}}
-                                            <span class="badge bg-primary rounded-pill px-3">Laris</span>
+                                            <span class="badge bg-primary rounded-pill px-3" style="min-width: 100px;">Laris</span>
                                         @elseif($data['klaster'] == 1) 
-                                            {{-- Sedang: Warna Kuning (Pakai text-dark biar tulisan kebaca) --}}
-                                            <span class="badge bg-warning text-dark rounded-pill px-3">Sedang</span>
+                                            <span class="badge bg-warning text-dark rounded-pill px-3" style="min-width: 100px;">Sedang</span>
                                         @else 
-                                            {{-- Kurang Laris: Warna Merah --}}
-                                            <span class="badge bg-danger rounded-pill px-3">Kurang Laris</span>
+                                            <span class="badge bg-danger rounded-pill px-3" style="min-width: 100px;">Kurang Laris</span>
                                         @endif
                                     </td>
                                 </tr>
@@ -111,15 +84,20 @@
                     </table>
                 </div>
             </div>
-            {{-- <div class="card-footer bg-white py-3">
-                <a href="{{ route('kmeans.reset') }}" class="btn btn-warning border fw-bold">
-                    <i class="fas fa-arrow-left me-2"></i> Analisis Ulang
-                </a>
-            </div> --}}
         </div>
     </div>
 </div>
 
+{{-- Floating Action Button --}}
+<a href="{{ route('kmeans.reset') }}" 
+   class="fab btn btn-warning shadow-lg"
+   data-bs-toggle="tooltip" title="Analisis Ulang">
+    <i class="fas fa-sync-alt fa-lg text-dark"></i>
+</a>
+
+@endsection
+
+@push('scripts')
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
@@ -148,25 +126,16 @@
     Highcharts.chart('kmeansChart', {
         chart: { type: 'scatter', zoomType: 'xy' },
         title: { text: null },
-        // --- TAMBAHKAN BAGIAN INI (EXPORTING) ---
         exporting: {
             buttons: {
                 contextButton: {
-                    //daftar ulang item menunya (TANPA 'printChart')
-                    menuItems: [
-                        "viewFullscreen",
-                        "separator",
-                        "downloadPNG",
-                        "downloadJPEG",
-                        "downloadSVG"
-                    ]
+                    menuItems: ["viewFullscreen", "separator", "downloadPNG", "downloadJPEG", "downloadSVG"]
                 }
             }
         },
-        // ----------------------------------------
         xAxis: { title: { text: 'Frekuensi Sewa (Kali)' }, startOnTick: true, endOnTick: true, showLastLabel: true },
-        yAxis: { title: { text: 'Total Unit Keluar' } },
-        legend: { layout: 'vertical', align: 'left', verticalAlign: 'top', x: 100, y: 70, floating: true, backgroundColor: Highcharts.defaultOptions.chart.backgroundColor || '#FFFFFF', borderWidth: 1 },
+        yAxis: { title: { text: 'Total Unit Keluar Keluar' } },
+        legend: { layout: 'vertical', align: 'left', verticalAlign: 'top', x: 100, y: 70, floating: true, backgroundColor: '#FFFFFF', borderWidth: 1 },
         plotOptions: {
             scatter: {
                 marker: { radius: 5, states: { hover: { enabled: true, lineColor: 'rgb(100,100,100)' } } },
@@ -180,49 +149,36 @@
         series: seriesData
     });
 
-    // --- SCRIPT SORTING TABEL ---
+    // Table Sorting
     function sortTable(n) {
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
         table = document.getElementById("resultTable");
         switching = true;
-        
-        // Arah sorting pertama kali: ASC (Kecil ke Besar / A-Z)
         dir = "asc"; 
         
         while (switching) {
             switching = false;
             rows = table.rows;
             
-            // Loop semua baris (kecuali header)
             for (i = 1; i < (rows.length - 1); i++) {
                 shouldSwitch = false;
-                
-                // Ambil 2 baris untuk dibandingkan
                 x = rows[i].getElementsByTagName("TD")[n];
                 y = rows[i + 1].getElementsByTagName("TD")[n];
                 
-                // Cek apakah punya atribut 'data-val' (Untuk angka biar akurat)
-                // Kalau tidak ada, pakai text biasa
                 var xVal = x.getAttribute('data-val') ? parseFloat(x.getAttribute('data-val')) : x.innerText.toLowerCase();
                 var yVal = y.getAttribute('data-val') ? parseFloat(y.getAttribute('data-val')) : y.innerText.toLowerCase();
 
                 if (dir == "asc") {
-                    if (xVal > yVal) {
-                        shouldSwitch = true;
-                        break;
-                    }
+                    if (xVal > yVal) { shouldSwitch = true; break; }
                 } else if (dir == "desc") {
-                    if (xVal < yVal) {
-                        shouldSwitch = true;
-                        break;
-                    }
+                    if (xVal < yVal) { shouldSwitch = true; break; }
                 }
             }
             
             if (shouldSwitch) {
                 rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
                 switching = true;
-                switchcount ++;      
+                switchcount++;      
             } else {
                 if (switchcount == 0 && dir == "asc") {
                     dir = "desc";
@@ -231,24 +187,11 @@
             }
         }
     }
-</script>
 
-{{-- FITUR BARU: Floating Action Button (Tombol Melayang) --}}
-<a href="{{ route('kmeans.reset') }}" 
-   class="btn btn-warning rounded-circle shadow-lg position-fixed d-flex align-items-center justify-content-center"
-   style="bottom: 30px; right: 30px; width: 60px; height: 60px; z-index: 1000;"
-   data-bs-toggle="tooltip" title="Analisis Ulang">
-    <i class="fas fa-sync-alt fa-lg text-dark"></i>
-</a>
-
-{{-- Script tambahan buat Tooltip FAB --}}
-<script>
+    // Tooltip Init
     document.addEventListener("DOMContentLoaded", function(){
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
+        tooltipTriggerList.map(function (el) { return new bootstrap.Tooltip(el) });
     });
 </script>
-
-@endsection
+@endpush

@@ -4,88 +4,41 @@
 @section('page-title', 'Sembodo Rent A Car')
 
 @section('content')
-    <style>
-        .transition-all { transition: all 0.3s ease-in-out; }
-        .hover-translate-y:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important; z-index: 10; cursor: pointer; }
-        .leaderboard-item { border: 1px solid transparent; }
-        .leaderboard-item:hover { border-color: rgba(78, 115, 223, 0.2); }
-    </style>
 
-
-    {{-- KONDISI 1: JIKA DATA TRANSAKSI MASIH KOSONG (DATABASE KOSONG) --}}
-
+    {{-- KONDISI 1: DATA TRANSAKSI KOSONG --}}
     @if(count($topArmada) == 0)
 
-        {{-- Card Hero Ungu --}}
-        <div class="card border-0 shadow-sm rounded-4 overflow-hidden"
-            style="background: linear-gradient(135deg, #571212 0%, #2c3a63 100%);">
-            <div class="card-body p-5">
-                <div class="row align-items-center">
+        <x-hero-card title="Data Transaksi Belum Tersedia">
+            <x-slot:action>
+                <a href="{{ route('upload.index') }}" class="btn btn-light px-4 py-2 fw-bold shadow-sm rounded-pill">
+                    <i class="fas fa-file-upload me-2"></i> Impor Data Sekarang
+                </a>
+            </x-slot:action>
+        </x-hero-card>
 
-                    {{-- Kolom Kiri: Teks & Tombol --}}
-                    <div class="col-lg-8 mb-4 mb-lg-0 text-white">
-                        <h3 class="fw-bold mb-3">Data Transaksi Belum Tersedia</h3>
-                        <a href="{{ route('upload.index') }}" class="btn btn-light px-4 py-2 fw-bold shadow-sm"
-                            style="color: #000000; border-radius: 50px;">
-                            <i class="fas fa-file-upload me-2"></i> Impor Data Sekarang
-                        </a>
-                    </div>
-
-                    {{-- Kolom Kanan: Ilustrasi Icon (Opsional) --}}
-                    {{-- <div class="col-lg-4 text-center d-none d-lg-block">
-                        <i class="fas fa-chart-area fa-8x" style="color: rgba(255,255,255,0.3); transform: rotate(-10deg);"></i>
-                    </div> --}}
-
-                </div>
-            </div>
-        </div>
-
-
-        {{-- KONDISI 2: DATA ADA, TAPI BELUM KLIK "PROSES K-MEANS" (SESSION KOSONG) --}}
-
+    {{-- KONDISI 2: DATA ADA, BELUM ANALISIS --}}
     @elseif(!session()->has('kmeans_result'))
 
-        {{-- Card Hero Biru Muda (Suruh Analisis) --}}
-        <div class="card border-0 shadow-sm rounded-4 overflow-hidden"
-            style="background: linear-gradient(135deg, #571212 0%, #2c3a63 100%);">
-            <div class="card-body p-5">
-                <div class="row align-items-center">
+        <x-hero-card title="Data Siap Dianalisis">
+            <x-slot:action>
+                <a href="{{ route('kmeans.index') }}" class="btn btn-light px-4 py-2 fw-bold shadow-sm rounded-pill">
+                    <i class="fas fa-calculator me-2"></i> Analisis
+                </a>
+            </x-slot:action>
+        </x-hero-card>
 
-                    <div class="col-lg-8 mb-4 mb-lg-0 text-white">
-                        <h3 class="fw-bold mb-3 text-white" style="text-shadow: 0 2px 4px rgba(0,0,0,0.1);">Data Siap Dianalisis
-                        </h3>
-                        {{-- <p class="lead mb-4 text-white" style="opacity: 0.9;">
-                            Data transaksi telah diunggah, namun sistem belum melakukan analisis K-Means.<br>
-                            Silakan jalankan proses analisis untuk melihat Dashboard Performa Armada.
-                        </p> --}}
-                        <a href="{{ route('kmeans.index') }}" class="btn btn-light px-4 py-2 fw-bold shadow-sm"
-                            style="color: #000000; border-radius: 50px;">
-                            <i class="fas fa-calculator me-2"></i>Analisis
-                        </a>
-                    </div>
-
-                    {{-- <div class="col-lg-4 text-center d-none d-lg-block">
-                        <i class="fas fa-chart-line fa-8x" style="color: rgba(255,255,255,0.3); transform: rotate(10deg);"></i>
-                    </div> --}}
-
-                </div>
-            </div>
-        </div>
-
-
-        {{-- KONDISI 3: DATA ADA & SUDAH ANALISIS (TAMPILKAN DASHBOARD UTUH) --}}
-
+    {{-- KONDISI 3: DATA ADA & SUDAH ANALISIS --}}
     @else
 
         {{-- FILTER BAR --}}
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-body p-3">
-                <form method="GET" action="{{ route('beranda.index') }}" class="row align-items-end g-3">
+                <form method="GET" action="{{ route('beranda.index') }}" class="row align-items-end g-2 g-md-3">
 
                     {{-- Filter Bulan --}}
-                    <div class="col-md-3">
+                    <div class="col-6 col-md-3">
                         <label class="form-label small fw-bold text-muted mb-1">
-                            <i class="fas fa-calendar-alt me-1"></i> Periode Bulan
+                            <i class="fas fa-calendar-alt me-1"></i> Periode
                         </label>
                         <select name="bulan" class="form-select form-select-sm">
                             <option value="">Semua Bulan</option>
@@ -98,9 +51,9 @@
                     </div>
 
                     {{-- Filter Brand --}}
-                    <div class="col-md-3">
+                    <div class="col-6 col-md-3">
                         <label class="form-label small fw-bold text-muted mb-1">
-                            <i class="fas fa-car me-1"></i> Merek Kendaraan
+                            <i class="fas fa-car me-1"></i> Merek
                         </label>
                         <select name="brand" class="form-select form-select-sm">
                             <option value="">Semua Merek</option>
@@ -112,22 +65,20 @@
                         </select>
                     </div>
 
-                    {{-- Tombol Filter --}}
-                    <div class="col-md-2">
+                    {{-- Buttons --}}
+                    <div class="col-6 col-md-2">
                         <button type="submit" class="btn btn-primary btn-sm w-100">
-                            <i class="fas fa-filter me-1"></i> Terapkan
+                            <i class="fas fa-filter me-1"></i> <span class="d-none d-sm-inline">Terapkan</span>
                         </button>
                     </div>
-
-                    {{-- Tombol Reset --}}
-                    <div class="col-md-2">
+                    <div class="col-6 col-md-2">
                         <a href="{{ route('beranda.index') }}" class="btn btn-outline-secondary btn-sm w-100">
-                            <i class="fas fa-sync-alt me-1"></i> Reset
+                            <i class="fas fa-sync-alt me-1"></i> <span class="d-none d-sm-inline">Reset</span>
                         </a>
                     </div>
 
-                    {{-- Info Filter Aktif --}}
-                    <div class="col-md-2 text-end">
+                    {{-- Filter Active Badge --}}
+                    <div class="col-12 col-md-2 text-md-end mt-2 mt-md-0">
                         @if($selectedMonth || $selectedBrand)
                             <span class="badge bg-info text-white">
                                 <i class="fas fa-filter me-1"></i> Filter Aktif
@@ -139,198 +90,113 @@
         </div>
 
         {{-- STATISTIK RINGKASAN --}}
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm bg-primary text-white">
-                    <div class="card-body p-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="mb-0 opacity-75">Total Transaksi</h6>
-                                <h3 class="mb-0 fw-bold">{{ number_format($totalTransaksi ?? 0) }}</h3>
-                            </div>
-                            <i class="fas fa-receipt fa-2x opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
+        <div class="row mb-4 g-3">
+            <div class="col-12 col-md-4">
+                <x-stat-card color="primary" icon="receipt" label="Total Transaksi" :value="number_format($totalTransaksi ?? 0)" />
             </div>
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm bg-success text-white">
-                    <div class="card-body p-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="mb-0 opacity-75">Total Unit Disewa</h6>
-                                <h3 class="mb-0 fw-bold">{{ number_format($totalUnit ?? 0) }}</h3>
-                            </div>
-                            <i class="fas fa-car fa-2x opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-12 col-md-4">
+                <x-stat-card color="success" icon="car" label="Total Unit Keluar Disewa" :value="number_format($totalUnit ?? 0)" />
             </div>
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm bg-info text-white">
-                    <div class="card-body p-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="mb-0 opacity-75">Jenis Unit</h6>
-                                <h3 class="mb-0 fw-bold">{{ count($topArmada) }}</h3>
-                            </div>
-                            <i class="fas fa-layer-group fa-2x opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-12 col-md-4">
+                <x-stat-card color="info" icon="layer-group" label="Jenis Unit" :value="count($topArmada)" />
             </div>
         </div>
 
         <div class="row">
 
-            {{-- KOLOM KIRI: PERFORMA ARMADA (TOP 10 BY SKOR) --}}
-            <div class="col-lg-5 mb-4">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-4">
-
-                        {{-- Judul & Subjudul Tumpuk ke Bawah --}}
+            {{-- KOLOM KIRI: PERFORMA ARMADA --}}
+            <div class="col-12 col-lg-5 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-3 p-md-4">
                         <div class="mb-4">
                             <h5 class="fw-bold mb-1">Performa Unit</h5>
-                            <small class="text-muted">Performa berdasarkan rata-rata frekuensi sewa dan total unit.</small>
+                            <small class="text-muted">Berdasarkan frekuensi sewa dan Total Unit Keluar.</small>
                         </div>
 
-                        {{--Tambahkan 'overflow-x: hidden' untuk hilangkan scroll samping --}}
-                        <div class="d-flex flex-column gap-3"
-                            style="max-height: 650px; overflow-y: auto; overflow-x: hidden; padding-right: 10px;">
+                        <div class="d-flex flex-column gap-3" style="max-height: 650px; overflow-y: auto; overflow-x: hidden; padding-right: 5px;">
                             @foreach($topArmada as $index => $mobil)
                                 @php
-                                    // --- LOGIKA GAMBAR DINAMIS ---
+                                    // Image mapping logic
                                     $namaMobil = strtolower($mobil->jenis_armada);
                                     $namaFile = 'default.png';
 
-                                    // 2. LOGIKA MAPPING GAMBAR MOBIL LENGKAP
-                                    if (str_contains($namaMobil, 'xpander'))
-                                        $namaFile = 'mitsubishi_xpander_utimate.png';
-                                    elseif (str_contains($namaMobil, 'innova'))
-                                        $namaFile = 'toyota_innova_zenix.png';
-                                    elseif (str_contains($namaMobil, 'fortuner'))
-                                        $namaFile = 'toyota_fortuner_vrz.png';
-                                    elseif (str_contains($namaMobil, 'alphard') || str_contains($namaMobil, 'vellfire'))
-                                        $namaFile = 'toyota_alphard.png';
-                                    elseif (str_contains($namaMobil, 'avanza') || str_contains($namaMobil, 'veloz'))
-                                        $namaFile = 'toyota_avanza.png';
-                                    elseif (str_contains($namaMobil, 'hiace'))
-                                        $namaFile = 'toyota_hiace.png';
-                                    elseif (str_contains($namaMobil, 'pajero'))
-                                        $namaFile = 'pajero.png';
-                                    elseif (str_contains($namaMobil, 'e200') || str_contains($namaMobil, 'e 250') || str_contains($namaMobil, '250'))
-                                        $namaFile = 'mercedes_benz_200.jpg';
-                                    elseif (str_contains($namaMobil, 'e300') || str_contains($namaMobil, 'e 300') || str_contains($namaMobil, '300'))
-                                        $namaFile = 'mercedes_benz_300.png';
-                                    elseif (str_contains($namaMobil, 'mercy') || str_contains($namaMobil, 'mercedes') || str_contains($namaMobil, 'sprinter'))
-                                        $namaFile = 'mercedes_benz_sprinter.jpg';
-                                    elseif (str_contains($namaMobil, 'pariwisata') || str_contains($namaMobil, 'bus'))
-                                        $namaFile = 'bus_pariwisata.png';
-                                    elseif (str_contains($namaMobil, 'elf'))
-                                        $namaFile = 'isuzu_elf.jpg';
-                                    elseif (str_contains($namaMobil, 'brio'))
-                                        $namaFile = 'honda_brio.png';
-                                    elseif (str_contains($namaMobil, 'civic'))
-                                        $namaFile = 'honda_civic.png';
-                                    elseif (str_contains($namaMobil, 'hrv'))
-                                        $namaFile = 'honda_hrv.png';
-                                    elseif (str_contains($namaMobil, 'crv'))
-                                        $namaFile = 'honda_crv.png';
-                                    elseif (str_contains($namaMobil, 'wr-v'))
-                                        $namaFile = 'honda_wrv.png';
-                                    elseif (str_contains($namaMobil, 'stargazer'))
-                                        $namaFile = 'hyundai_stargazer.png';
-                                    elseif (str_contains($namaMobil, 'creta'))
-                                        $namaFile = 'hyundai_creta.png';
-                                    elseif (str_contains($namaMobil, 'ioniq'))
-                                        $namaFile = 'hyundai_ioniq.png';
-                                    elseif (str_contains($namaMobil, 'palisade'))
-                                        $namaFile = 'hyundai_palisade.jpg';
-                                    elseif (str_contains($namaMobil, 'kona'))
-                                        $namaFile = 'hyundai_kona.jpg';
-                                    elseif (str_contains($namaMobil, 'h-1'))
-                                        $namaFile = 'hyundai_h1.jpg';
-                                    elseif (str_contains($namaMobil, 'ertiga') || str_contains($namaMobil, 'xl7'))
-                                        $namaFile = 'suzuki_ertiga.png';
-                                    elseif (str_contains($namaMobil, 'xenia'))
-                                        $namaFile = 'daihatsu_xenia.png';
-                                    elseif (str_contains($namaMobil, 'terios'))
-                                        $namaFile = 'daihatsu_terios.png';
-                                    elseif (str_contains($namaMobil, 'luxio') || str_contains($namaMobil, 'grandmax'))
-                                        $namaFile = 'daihatsu_granmax.jpg';
-                                    elseif (str_contains($namaMobil, 'wuling') || str_contains($namaMobil, 'almaz') || str_contains($namaMobil, 'confero'))
-                                        $namaFile = 'wuling_almaz.png';
-                                    elseif (str_contains($namaMobil, 'camry'))
-                                        $namaFile = 'toyota_camry.avif';
-                                    elseif (str_contains($namaMobil, 'voxy'))
-                                        $namaFile = 'toyota_voxy.png';
-                                    elseif (str_contains($namaMobil, 'rush'))
-                                        $namaFile = 'toyota_rush.png';
+                                    if (str_contains($namaMobil, 'xpander')) $namaFile = 'mitsubishi_xpander_utimate.png';
+                                    elseif (str_contains($namaMobil, 'innova')) $namaFile = 'toyota_innova_zenix.png';
+                                    elseif (str_contains($namaMobil, 'fortuner')) $namaFile = 'toyota_fortuner_vrz.png';
+                                    elseif (str_contains($namaMobil, 'alphard') || str_contains($namaMobil, 'vellfire')) $namaFile = 'toyota_alphard.png';
+                                    elseif (str_contains($namaMobil, 'avanza') || str_contains($namaMobil, 'veloz')) $namaFile = 'toyota_avanza.png';
+                                    elseif (str_contains($namaMobil, 'hiace')) $namaFile = 'toyota_hiace.png';
+                                    elseif (str_contains($namaMobil, 'pajero')) $namaFile = 'pajero.png';
+                                    elseif (str_contains($namaMobil, 'e200') || str_contains($namaMobil, 'e 250') || str_contains($namaMobil, '250')) $namaFile = 'mercedes_benz_200.jpg';
+                                    elseif (str_contains($namaMobil, 'e300') || str_contains($namaMobil, 'e 300') || str_contains($namaMobil, '300')) $namaFile = 'mercedes_benz_300.png';
+                                    elseif (str_contains($namaMobil, 'mercy') || str_contains($namaMobil, 'mercedes') || str_contains($namaMobil, 'sprinter')) $namaFile = 'mercedes_benz_sprinter.jpg';
+                                    elseif (str_contains($namaMobil, 'pariwisata') || str_contains($namaMobil, 'bus')) $namaFile = 'bus_pariwisata.png';
+                                    elseif (str_contains($namaMobil, 'elf')) $namaFile = 'isuzu_elf.jpg';
+                                    elseif (str_contains($namaMobil, 'brio')) $namaFile = 'honda_brio.png';
+                                    elseif (str_contains($namaMobil, 'civic')) $namaFile = 'honda_civic.png';
+                                    elseif (str_contains($namaMobil, 'hrv')) $namaFile = 'honda_hrv.png';
+                                    elseif (str_contains($namaMobil, 'crv')) $namaFile = 'honda_crv.png';
+                                    elseif (str_contains($namaMobil, 'wr-v')) $namaFile = 'honda_wrv.png';
+                                    elseif (str_contains($namaMobil, 'stargazer')) $namaFile = 'hyundai_stargazer.png';
+                                    elseif (str_contains($namaMobil, 'creta')) $namaFile = 'hyundai_creta.png';
+                                    elseif (str_contains($namaMobil, 'ioniq')) $namaFile = 'hyundai_ioniq.png';
+                                    elseif (str_contains($namaMobil, 'palisade')) $namaFile = 'hyundai_palisade.jpg';
+                                    elseif (str_contains($namaMobil, 'kona')) $namaFile = 'hyundai_kona.jpg';
+                                    elseif (str_contains($namaMobil, 'h-1')) $namaFile = 'hyundai_h1.jpg';
+                                    elseif (str_contains($namaMobil, 'ertiga') || str_contains($namaMobil, 'xl7')) $namaFile = 'suzuki_ertiga.png';
+                                    elseif (str_contains($namaMobil, 'xenia')) $namaFile = 'daihatsu_xenia.png';
+                                    elseif (str_contains($namaMobil, 'terios')) $namaFile = 'daihatsu_terios.png';
+                                    elseif (str_contains($namaMobil, 'luxio') || str_contains($namaMobil, 'grandmax')) $namaFile = 'daihatsu_granmax.jpg';
+                                    elseif (str_contains($namaMobil, 'wuling') || str_contains($namaMobil, 'almaz') || str_contains($namaMobil, 'confero')) $namaFile = 'wuling_almaz.png';
+                                    elseif (str_contains($namaMobil, 'camry')) $namaFile = 'toyota_camry.avif';
+                                    elseif (str_contains($namaMobil, 'voxy')) $namaFile = 'toyota_voxy.png';
+                                    elseif (str_contains($namaMobil, 'rush')) $namaFile = 'toyota_rush.png';
 
-                                    if (file_exists(public_path('images/cars/' . $namaFile))) {
-                                        $gambar = $namaFile;
-                                    } else {
-                                        $gambar = 'default.png';
-                                    }
+                                    $gambar = file_exists(public_path('images/cars/' . $namaFile)) ? $namaFile : 'default.png';
 
-                                    // --- LOGIKA WARNA & LABEL (LARIS, SEDANG, KURANG LARIS) ---
+                                    // Status colors
                                     $rank = $loop->index;
-
                                     if ($rank < 3) {
-                                        // Rank 1-3: Laris (Biru)
                                         $label = 'Laris';
                                         $badgeClass = 'text-white';
                                         $warnaStatus = '#4E73DF';
                                     } elseif ($rank < 7) {
-                                        // Rank 4-7: Sedang (Kuning)
                                         $label = 'Sedang';
                                         $badgeClass = 'text-dark';
                                         $warnaStatus = '#F6C23E';
                                     } else {
-                                        // Rank 8-10: Kurang Laris (Merah)
                                         $label = 'Kurang Laris';
                                         $badgeClass = 'text-white';
                                         $warnaStatus = '#E74A3B';
                                     }
 
-                                    // Hitung Persentase Progress Bar BERDASARKAN SKOR
                                     $persen = ($mobil->score / $maxScore) * 100;
                                 @endphp
 
-                                {{-- ITEM LIST MOBIL --}}
                                 <div class="row align-items-center">
-                                    {{-- 1. Nama & Nomor Urut --}}
                                     <div class="col-12 mb-2">
                                         <span class="fw-bold fs-6 text-dark">
                                             <span class="text-muted me-1">{{ $loop->iteration }}.</span>
-                                            {{ $mobil->jenis_armada }}
+                                            {{ ucwords(strtolower($mobil->jenis_armada)) }}
                                         </span>
                                     </div>
 
-                                    {{-- 2. Gambar Mobil (Kiri) --}}
                                     <div class="col-3 text-center">
                                         <img src="{{ asset('images/cars/' . $gambar) }}" class="img-fluid"
                                             alt="{{ $mobil->jenis_armada }}"
                                             style="filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.15)); max-height: 50px; object-fit: contain;">
                                     </div>
 
-                                    {{-- 3. Progress Bar & Stats (Kanan) --}}
                                     <div class="col-9">
-                                        <div class="d-flex justify-content-between mb-1">
-                                            {{-- Tampilkan Detail: Frekuensi & Unit --}}
-                                            <span class="small fw-bold text-secondary" style="font-size: 0.75rem;">
-                                                {{ $mobil->frequency }} Transaksi <span class="mx-1">•</span>
-                                                {{ $mobil->total_unit }} Unit Disewa
+                                        <div class="d-flex justify-content-between mb-1 flex-wrap">
+                                            <span class="small fw-bold text-secondary" style="font-size: 0.7rem;">
+                                                {{ $mobil->frequency }} Transaksi • {{ $mobil->total_unit }} Unit
                                             </span>
-
-                                            {{-- BADGE STATUS BARU --}}
                                             <span class="badge rounded-pill {{ $badgeClass }}"
-                                                style="background-color: {{ $warnaStatus }}; font-size: 0.7rem;">
+                                                style="background-color: {{ $warnaStatus }}; font-size: 0.65rem;">
                                                 {{ $label }}
                                             </span>
                                         </div>
-
-                                        {{-- PROGRESS BAR DENGAN WARNA DINAMIS --}}
                                         <div class="progress" style="height: 6px; border-radius: 10px; background-color: #eaecf4;">
                                             <div class="progress-bar" role="progressbar"
                                                 style="width: {{ $persen }}%; background-color: {{ $warnaStatus }};"
@@ -342,56 +208,44 @@
                                 @if(!$loop->last)
                                     <hr class="my-0 opacity-25">
                                 @endif
-
                             @endforeach
                         </div>
-
                     </div>
                 </div>
             </div>
 
-            {{-- KOLOM KANAN: GRAFIK TREN & DONUT --}}
-            <div class="col-lg-7">
+            {{-- KOLOM KANAN: GRAFIK --}}
+            <div class="col-12 col-lg-7">
 
-                {{-- CARD 1: TREN PENYEWAAN BULANAN --}}
+                {{-- TREN BULANAN --}}
                 <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-body p-4">
+                    <div class="card-body p-3 p-md-4">
                         <h5 class="fw-bold mb-3">Tren Penyewaan Bulanan</h5>
                         <div id="trendChart" style="height: 250px;"></div>
                     </div>
                 </div>
 
-                {{-- CARD 2: PROPORSI LAYANAN + TOP 5 --}}
+                {{-- PROPORSI LAYANAN --}}
                 <div class="card border-0 shadow-sm">
-                    <div class="card-body p-4">
-
-                        {{-- Judul & Subjudul Rapat --}}
+                    <div class="card-body p-3 p-md-4">
                         <div class="mb-4">
                             <h5 class="fw-bold mb-1">Layanan</h5>
-                            <small class="text-muted">Poin dihitung berdasarkan jumlah transaksi dan total unit yang disewa per
-                                hari.</small>
+                            <small class="text-muted">Poin dihitung berdasarkan transaksi dan Total Unit Keluar per hari.</small>
                         </div>
 
-                        {{-- BAGIAN ATAS: GRAFIK DONUT --}}
                         <div class="row align-items-center mb-4">
-                            <div class="col-md-7">
+                            <div class="col-7 col-md-7">
                                 <div id="layananChart" style="height: 200px;"></div>
                             </div>
-                            <div class="col-md-5">
-                                <ul class="list-unstyled">
+                            <div class="col-5 col-md-5">
+                                <ul class="list-unstyled small">
                                     <li class="mb-3 d-flex align-items-center">
-                                        <span
-                                            style="width: 30px; height: 15px; background-color: #4E73DF; display: inline-block; border-radius: 3px; margin-right: 10px;"></span>
-                                        <div>
-                                            <h6 class="m-0 fw-bold small">Lepas Kunci</h6>
-                                        </div>
+                                        <span class="d-inline-block me-2 rounded" style="width: 20px; height: 12px; background-color: #4E73DF;"></span>
+                                        <span class="fw-bold">Lepas Kunci</span>
                                     </li>
                                     <li class="d-flex align-items-center">
-                                        <span
-                                            style="width: 30px; height: 15px; background-color: #36B9CC; display: inline-block; border-radius: 3px; margin-right: 10px;"></span>
-                                        <div>
-                                            <h6 class="m-0 fw-bold small">Dengan Driver</h6>
-                                        </div>
+                                        <span class="d-inline-block me-2 rounded" style="width: 20px; height: 12px; background-color: #36B9CC;"></span>
+                                        <span class="fw-bold">Dengan Driver</span>
                                     </li>
                                 </ul>
                             </div>
@@ -399,189 +253,109 @@
 
                         <hr class="mb-4">
 
-                        {{-- BAGIAN BAWAH: LIST TOP 5 PER LAYANAN --}}
+                        {{-- TOP 5 PER LAYANAN --}}
                         <div class="row">
-                            
-                            {{-- Kolom Kiri: Top 5 Lepas Kunci --}}
-                            <div class="col-md-6 border-end">
-                                <div class="d-flex align-items-center mb-4">
-                                    <div class="bg-primary bg-opacity-10 p-2 rounded-3 me-3 icon-box-shadow">
-                                        <i class="fas fa-key text-primary fa-lg"></i>
+                            {{-- Lepas Kunci --}}
+                            <div class="col-12 col-md-6 border-end-md mb-4 mb-md-0">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="bg-primary bg-opacity-10 p-2 rounded-3 me-2">
+                                        <i class="fas fa-key text-primary"></i>
                                     </div>
                                     <div>
-                                        <h6 class="fw-bold m-0 text-dark">Terlaris Lepas Kunci</h6>
-                                        <small class="text-muted">Berdasarkan total aktivitas</small>
+                                        <h6 class="fw-bold m-0 text-dark small">Terlaris Lepas Kunci</h6>
                                     </div>
                                 </div>
                                 
-                                <div class="leaderboard-list">
-                                    @forelse($topLepasKunci as $item)
-                                        <div class="leaderboard-item position-relative d-flex align-items-center p-3 mb-3 rounded-4 bg-white shadow-sm border transition-all hover-scale">
-                                            
-                                            {{-- RANKING BADGE --}}
-                                            <div class="position-absolute top-0 start-0 translate-middle badge rounded-pill border shadow-sm
-                                                @if($loop->iteration == 1) bg-warning text-dark border-warning
-                                                @elseif($loop->iteration == 2) bg-secondary text-white border-secondary
-                                                @elseif($loop->iteration == 3) bg-danger text-white border-danger
-                                                @else bg-light text-muted border-light-subtle @endif"
-                                                style="z-index: 10; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
-                                                {{ $loop->iteration }}
-                                            </div>
-
-                                            {{-- IMAGE --}}
-                                            <div class="me-3" style="width: 60px; height: 40px; display: flex; align-items: center; justify-content: center;">
-                                                <img src="{{ asset('images/cars/' . $item->image) }}" alt="{{ $item->jenis_armada }}" 
-                                                    class="img-fluid" style="max-height: 100%; filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2));">
-                                            </div>
-
-                                            {{-- TEXT CONTENT --}}
-                                            <div class="flex-grow-1 lh-1">
-                                                <div class="fw-bold text-dark mb-1 text-truncate" style="max-width: 150px;">{{ $item->jenis_armada }}</div>
-                                                <div class="d-flex align-items-center">
-                                                    <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2 py-1" style="font-size: 0.65rem;">
-                                                        {{ $item->freq }} Transaksi
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            {{-- POINTS --}}
-                                            <div class="text-end ms-2">
-                                                <div class="fw-bolder text-primary h5 m-0">{{ $item->freq + $item->unit }}</div>
-                                                <small class="text-secondary" style="font-size: 0.65rem;">Poin</small>
-                                            </div>
-                                        </div>
-                                    @empty
-                                        <div class="text-center py-5">
-                                            <div class="mb-3 text-light">
-                                                <i class="fas fa-inbox fa-3x opacity-25"></i>
-                                            </div>
-                                            <p class="small text-muted mb-0">Belum ada data tersedia</p>
-                                        </div>
-                                    @endforelse
-                                </div>
+                                @forelse($topLepasKunci as $item)
+                                    <div class="d-flex align-items-center p-2 mb-2 rounded-3 bg-light border transition-all hover-scale">
+                                        <span class="badge bg-primary me-2" style="width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">
+                                            {{ $loop->iteration }}
+                                        </span>
+                                        <img src="{{ asset('images/cars/' . $item->image) }}" alt="" class="me-2 d-none d-sm-block" style="max-height: 30px; width: 40px; object-fit: contain;">
+                                        <span class="fw-bold text-dark small text-truncate" style="max-width: 120px;">{{ ucwords(strtolower($item->jenis_armada)) }}</span>
+                                        <span class="ms-auto fw-bold text-primary small">{{ $item->freq + $item->unit }}</span>
+                                    </div>
+                                @empty
+                                    <p class="text-muted small text-center py-3">Tidak ada data</p>
+                                @endforelse
                             </div>
 
-                            {{-- Kolom Kanan: Top 5 Driver --}}
-                            <div class="col-md-6 ps-md-4 mt-5 mt-md-0">
-                                <div class="d-flex align-items-center mb-4">
-                                    <div class="bg-info bg-opacity-10 p-2 rounded-3 me-3 icon-box-shadow">
-                                        <i class="fas fa-user-tie text-info fa-lg"></i>
+                            {{-- Dengan Driver --}}
+                            <div class="col-12 col-md-6 ps-md-3">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="bg-info bg-opacity-10 p-2 rounded-3 me-2">
+                                        <i class="fas fa-user-tie text-info"></i>
                                     </div>
                                     <div>
-                                        <h6 class="fw-bold m-0 text-dark">Terlaris Dengan Driver</h6>
-                                        <small class="text-muted">Berdasarkan total aktivitas</small>
+                                        <h6 class="fw-bold m-0 text-dark small">Terlaris Dengan Driver</h6>
                                     </div>
                                 </div>
-
-                                <div class="leaderboard-list">
-                                    @forelse($topDriver as $item)
-                                        <div class="leaderboard-item position-relative d-flex align-items-center p-3 mb-3 rounded-4 bg-white shadow-sm border transition-all hover-scale">
-                                            
-                                            {{-- RANKING BADGE --}}
-                                            <div class="position-absolute top-0 start-0 translate-middle badge rounded-pill border shadow-sm
-                                                @if($loop->iteration == 1) bg-warning text-dark border-warning
-                                                @elseif($loop->iteration == 2) bg-secondary text-white border-secondary
-                                                @elseif($loop->iteration == 3) bg-danger text-white border-danger
-                                                @else bg-light text-muted border-light-subtle @endif"
-                                                style="z-index: 10; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
-                                                {{ $loop->iteration }}
-                                            </div>
-
-                                            {{-- IMAGE --}}
-                                            <div class="me-3" style="width: 60px; height: 40px; display: flex; align-items: center; justify-content: center;">
-                                                <img src="{{ asset('images/cars/' . $item->image) }}" alt="{{ $item->jenis_armada }}" 
-                                                    class="img-fluid" style="max-height: 100%; filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2));">
-                                            </div>
-
-                                            {{-- TEXT CONTENT --}}
-                                            <div class="flex-grow-1 lh-1">
-                                                <div class="fw-bold text-dark mb-1 text-truncate" style="max-width: 150px;">{{ $item->jenis_armada }}</div>
-                                                <div class="d-flex align-items-center">
-                                                    <span class="badge bg-info bg-opacity-10 text-info rounded-pill px-2 py-1" style="font-size: 0.65rem;">
-                                                        {{ $item->freq }} Transaksi
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            {{-- POINTS --}}
-                                            <div class="text-end ms-2">
-                                                <div class="fw-bolder text-info h5 m-0" style="color: #36B9CC !important;">{{ $item->freq + $item->unit }}</div>
-                                                <small class="text-secondary" style="font-size: 0.65rem;">Poin</small>
-                                            </div>
-                                        </div>
-                                    @empty
-                                        <div class="text-center py-5">
-                                            <div class="mb-3 text-light">
-                                                <i class="fas fa-inbox fa-3x opacity-25"></i>
-                                            </div>
-                                            <p class="small text-muted mb-0">Belum ada data tersedia</p>
-                                        </div>
-                                    @endforelse
-                                </div>
+                                
+                                @forelse($topDriver as $item)
+                                    <div class="d-flex align-items-center p-2 mb-2 rounded-3 bg-light border transition-all hover-scale">
+                                        <span class="badge bg-info me-2" style="width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">
+                                            {{ $loop->iteration }}
+                                        </span>
+                                        <img src="{{ asset('images/cars/' . $item->image) }}" alt="" class="me-2 d-none d-sm-block" style="max-height: 30px; width: 40px; object-fit: contain;">
+                                        <span class="fw-bold text-dark small text-truncate" style="max-width: 120px;">{{ ucwords(strtolower($item->jenis_armada)) }}</span>
+                                        <span class="ms-auto fw-bold text-info small">{{ $item->freq + $item->unit }}</span>
+                                    </div>
+                                @empty
+                                    <p class="text-muted small text-center py-3">Tidak ada data</p>
+                                @endforelse
                             </div>
-
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
-
-        {{-- SCRIPT HIGHCHARTS (HANYA DILOAD JIKA DASHBOARD MUNCUL) --}}
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-
-        <script>
-            // --- 1. CONFIG TREND CHART (GARIS) ---
-            Highcharts.chart('trendChart', {
-                chart: { type: 'area', style: { fontFamily: 'Nunito, sans-serif' } },
-                title: { text: null },
-                xAxis: {
-                    categories: @json($chartTrend['categories'] ?? []),
-                    gridLineWidth: 0,
-                    lineColor: 'transparent'
-                },
-                yAxis: {
-                    title: { text: null },
-                    gridLineDashStyle: 'Dash'
-                },
-                tooltip: { shared: true, valueSuffix: ' Transaksi' },
-                credits: { enabled: false },
-                plotOptions: {
-                    area: {
-                        fillOpacity: 0.1,
-                        marker: { enabled: true, radius: 4 },
-                        lineWidth: 2
-                    }
-                },
-                series: [{
-                    name: 'Total Sewa',
-                    data: @json($chartTrend['data'] ?? []),
-                    color: '#4E73DF'
-                }],
-                legend: { enabled: false }
-            });
-
-            // --- 2. CONFIG LAYANAN CHART (DONUT) ---
-            Highcharts.chart('layananChart', {
-                chart: { type: 'pie', style: { fontFamily: 'Nunito, sans-serif' } },
-                title: { text: null },
-                tooltip: { pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' },
-                credits: { enabled: false },
-                plotOptions: {
-                    pie: {
-                        innerSize: '60%',
-                        dataLabels: { enabled: false },
-                        showInLegend: false,
-                        borderWidth: 0
-                    }
-                },
-                series: [{
-                    name: 'Proporsi',
-                    data: @json($chartLayanan ?? []),
-                    colors: ['#4E73DF', '#36B9CC']
-                }]
-            });
-        </script>
 
     @endif
 
 @endsection
+
+@push('scripts')
+@if(session()->has('kmeans_result') && count($topArmada) > 0)
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script>
+    // Trend Chart
+    Highcharts.chart('trendChart', {
+        chart: { type: 'area', style: { fontFamily: 'Nunito, sans-serif' } },
+        title: { text: null },
+        xAxis: {
+            categories: @json($chartTrend['categories'] ?? []),
+            gridLineWidth: 0,
+            lineColor: 'transparent'
+        },
+        yAxis: { title: { text: null }, gridLineDashStyle: 'Dash' },
+        tooltip: { shared: true, valueSuffix: ' Transaksi' },
+        credits: { enabled: false },
+        plotOptions: {
+            area: { fillOpacity: 0.1, marker: { enabled: true, radius: 4 }, lineWidth: 2 }
+        },
+        series: [{
+            name: 'Total Sewa',
+            data: @json($chartTrend['data'] ?? []),
+            color: '#4E73DF'
+        }],
+        legend: { enabled: false }
+    });
+
+    // Layanan Chart (Donut)
+    Highcharts.chart('layananChart', {
+        chart: { type: 'pie', style: { fontFamily: 'Nunito, sans-serif' } },
+        title: { text: null },
+        tooltip: { pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' },
+        credits: { enabled: false },
+        plotOptions: {
+            pie: { innerSize: '60%', dataLabels: { enabled: false }, showInLegend: false, borderWidth: 0 }
+        },
+        series: [{
+            name: 'Proporsi',
+            data: @json($chartLayanan ?? []),
+            colors: ['#4E73DF', '#36B9CC']
+        }]
+    });
+</script>
+@endif
+@endpush

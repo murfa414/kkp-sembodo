@@ -94,7 +94,7 @@ Masuk menggunakan akun admin. Anda akan disambut Dashboard yang menampilkan ring
 ### 3️⃣ Jalankan Analisis
 *   Masuk ke menu **Analisis K-Means**.
 *   Tentukan jumlah klaster (Standard: 3 Klaster).
-*   Pilih atribut analisis (Frekuensi Sewa & Total Unit).
+*   Pilih atribut analisis (Frekuensi Sewa & Total Unit Keluar).
 *   Klik **"Proses Analisis"**.
 
 ### 4️⃣ Lihat Hasil & Laporan

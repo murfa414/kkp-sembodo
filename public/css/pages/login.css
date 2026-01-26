@@ -1,0 +1,90 @@
+/* ============================================
+   SEMBODO RENT - Login Page Styles
+   ============================================ */
+
+/* --- Page Background --- */
+.login-page {
+    background-color: #9e999988;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* --- Login Title --- */
+.login-title {
+    color: #000000;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+}
+
+/* --- Login Card --- */
+.card-login {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Form Labels --- */
+.card-login .form-label {
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 8px;
+}
+
+/* --- Form Controls --- */
+.card-login .form-control {
+    border-radius: 10px;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+}
+
+.card-login .form-control:focus {
+    box-shadow: none;
+    border-color: #000;
+}
+
+/* --- Black Button --- */
+.btn-black {
+    background-color: #000000;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 12px;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.btn-black:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+/* --- Password Toggle --- */
+.password-container {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+}
+
+/* --- Footer Text --- */
+.footer-text {
+    margin-top: 3rem;
+    color: #000000;
+    font-size: 0.85rem;
+    text-align: center;
+}

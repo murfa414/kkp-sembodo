@@ -34,7 +34,7 @@ class LaporanController extends Controller
         //KALAU BELUM ANALISIS, HITUNG OTOMATIS (FALLBACK)
 
         // 2. AMBIL DATA (Sama persis kayak KMeansController)
-        // Kita ambil SEMUA atribut (Frekuensi & Total Unit) biar akurat
+        // Kita ambil SEMUA atribut (Frekuensi & Total Unit Keluar) biar akurat
         $dataMentah = Transaksi::select(
             'jenis_armada',
             DB::raw('count(*) as frekuensi'),
@@ -156,7 +156,7 @@ class LaporanController extends Controller
     // Fungsi Pembantu: Format Data & Ambil Top 3
     private function formatCluster($clusterData)
     {
-        // [MODIFIKASI] Urutkan anggota klaster berdasarkan SKOR GABUNGAN (Frekuensi + Total Unit) terbesar
+        // [MODIFIKASI] Urutkan anggota klaster berdasarkan SKOR GABUNGAN (Frekuensi + Total Unit Keluar) terbesar
         usort($clusterData, function ($a, $b) {
             $scoreA = $a['c1'] + $a['c2'];
             $scoreB = $b['c1'] + $b['c2'];

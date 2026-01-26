@@ -51,7 +51,7 @@ class KMeansController extends Controller
             'jumlah_klaster.integer'  => 'Kolom ini hanya dapat diisi dengan angka bulat (misalnya: 3).',
             'jumlah_klaster.min'      => 'Analisis hanya dapat dilakukan apabila terdapat minimal 2 klaster.',
             'jumlah_klaster.max'      => 'Jumlah klaster terlalu banyak. Maksimal hanya diperbolehkan 3 klaster.',
-            'atribut.required'        => 'Variabel belum dipilih. Harap mencentang minimal satu variabel (Frekuensi Sewa atau Total Unit).'
+            'atribut.required'        => 'Variabel belum dipilih. Harap mencentang minimal satu variabel (Frekuensi Sewa atau Total Unit Keluar).'
         ]);
 
         $k = $request->jumlah_klaster;
@@ -213,7 +213,7 @@ class KMeansController extends Controller
         // Biar di Tabel K-Means urutannya Rapi (Paling Laris di Atas)
         foreach ($clusters as $key => $members) {
             usort($clusters[$key], function ($a, $b) {
-                // Bandingkan Total Unit (c2), dari Besar ke Kecil
+                // Bandingkan Total Unit Keluar (c2), dari Besar ke Kecil
                 return $b['c2'] <=> $a['c2'];
             });
         }

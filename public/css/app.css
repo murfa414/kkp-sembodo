@@ -1,0 +1,149 @@
+/* ============================================
+   SEMBODO RENT - Main Application Styles
+   ============================================ */
+
+/* --- Base Styles --- */
+body {
+    background-color: #F3F4F6;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+}
+
+/* --- Utility Classes --- */
+.transition-all {
+    transition: all 0.3s ease-in-out;
+}
+
+.hover-scale:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.hover-translate-y:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    z-index: 10;
+    cursor: pointer;
+}
+
+/* --- Card Enhancements --- */
+.card {
+    border-radius: 0.75rem;
+}
+
+.rounded-4 {
+    border-radius: 1rem !important;
+}
+
+.rounded-5 {
+    border-radius: 1.5rem !important;
+}
+
+/* --- Shadow Utilities --- */
+.shadow-soft {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+}
+
+.icon-box-shadow {
+    box-shadow: 0 4px 12px rgba(78, 115, 223, 0.15);
+}
+
+/* --- Gradient Backgrounds --- */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #571212 0%, #2c3a63 100%);
+}
+
+.bg-gradient-primary-reverse {
+    background: linear-gradient(135deg, #2c3a63 0%, #571212 100%);
+}
+
+.bg-soft-gradient {
+    background: linear-gradient(135deg, #eef2fa 0%, #e0eafc 100%);
+}
+
+/* --- Button Enhancements --- */
+.btn-gradient-primary {
+    background: linear-gradient(to right, #4e73df 0%, #224abe 100%);
+    border: none;
+    color: white;
+}
+
+.btn-gradient-primary:hover {
+    background: linear-gradient(to right, #224abe 0%, #4e73df 100%);
+    color: white;
+}
+
+/* --- Animation Keyframes --- */
+@keyframes pulse-soft {
+    0% {
+        box-shadow: 0 0 0 0 rgba(78, 115, 223, 0.2);
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(78, 115, 223, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(78, 115, 223, 0);
+    }
+}
+
+.icon-pulse {
+    animation: pulse-soft 2s infinite;
+}
+
+/* --- Table Enhancements --- */
+.table> :not(caption)>*>* {
+    padding: 0.875rem 1rem;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(78, 115, 223, 0.05);
+}
+
+/* --- Leaderboard Items --- */
+.leaderboard-item {
+    border: 1px solid transparent;
+}
+
+.leaderboard-item:hover {
+    border-color: rgba(78, 115, 223, 0.2);
+}
+
+/* --- Floating Action Button --- */
+.fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Form Enhancements --- */
+.form-control:focus,
+.form-select:focus {
+    border-color: #4e73df;
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+/* --- Badge Enhancements --- */
+.badge-lepas-kunci {
+    background-color: #0B5ED7;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.badge-dengan-driver {
+    background-color: #146C43;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-weight: 600;
+}
