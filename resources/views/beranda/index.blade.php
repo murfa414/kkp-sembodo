@@ -4,6 +4,12 @@
 @section('page-title', 'Sembodo Rent A Car')
 
 @section('content')
+    <style>
+        .transition-all { transition: all 0.3s ease-in-out; }
+        .hover-translate-y:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important; z-index: 10; cursor: pointer; }
+        .leaderboard-item { border: 1px solid transparent; }
+        .leaderboard-item:hover { border-color: rgba(78, 115, 223, 0.2); }
+    </style>
 
 
     {{-- KONDISI 1: JIKA DATA TRANSAKSI MASIH KOSONG (DATABASE KOSONG) --}}
@@ -165,7 +171,7 @@
                     <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="mb-0 opacity-75">Jenis Armada</h6>
+                                <h6 class="mb-0 opacity-75">Jenis Unit</h6>
                                 <h3 class="mb-0 fw-bold">{{ count($topArmada) }}</h3>
                             </div>
                             <i class="fas fa-layer-group fa-2x opacity-50"></i>
@@ -395,47 +401,124 @@
 
                         {{-- BAGIAN BAWAH: LIST TOP 5 PER LAYANAN --}}
                         <div class="row">
+                            
                             {{-- Kolom Kiri: Top 5 Lepas Kunci --}}
                             <div class="col-md-6 border-end">
-                                <h6 class="fw-bold mb-3" style="color: #4E73DF;"><i
-                                        class="fas fa-key me-2 text-secondary"></i><span class="text-secondary">5 teratas</span>
-                                    Lepas Kunci</h6>
-                                <ul class="list-group list-group-flush">
+                                <div class="d-flex align-items-center mb-4">
+                                    <div class="bg-primary bg-opacity-10 p-2 rounded-3 me-3 icon-box-shadow">
+                                        <i class="fas fa-key text-primary fa-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold m-0 text-dark">Terlaris Lepas Kunci</h6>
+                                        <small class="text-muted">Berdasarkan total aktivitas</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="leaderboard-list">
                                     @forelse($topLepasKunci as $item)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center px-0 py-2 border-0">
-                                            <span class="small text-dark fw-bold">{{ $loop->iteration }}.
-                                                {{ $item->jenis_armada }}</span>
-                                            <span class="badge bg-light text-primary border rounded-pill"
-                                                style="font-size: 0.7rem;">{{ $item->freq + $item->unit }} Poin</span>
-                                        </li>
+                                        <div class="leaderboard-item position-relative d-flex align-items-center p-3 mb-3 rounded-4 bg-white shadow-sm border transition-all hover-scale">
+                                            
+                                            {{-- RANKING BADGE --}}
+                                            <div class="position-absolute top-0 start-0 translate-middle badge rounded-pill border shadow-sm
+                                                @if($loop->iteration == 1) bg-warning text-dark border-warning
+                                                @elseif($loop->iteration == 2) bg-secondary text-white border-secondary
+                                                @elseif($loop->iteration == 3) bg-danger text-white border-danger
+                                                @else bg-light text-muted border-light-subtle @endif"
+                                                style="z-index: 10; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
+                                                {{ $loop->iteration }}
+                                            </div>
+
+                                            {{-- IMAGE --}}
+                                            <div class="me-3" style="width: 60px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                                <img src="{{ asset('images/cars/' . $item->image) }}" alt="{{ $item->jenis_armada }}" 
+                                                    class="img-fluid" style="max-height: 100%; filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2));">
+                                            </div>
+
+                                            {{-- TEXT CONTENT --}}
+                                            <div class="flex-grow-1 lh-1">
+                                                <div class="fw-bold text-dark mb-1 text-truncate" style="max-width: 150px;">{{ $item->jenis_armada }}</div>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2 py-1" style="font-size: 0.65rem;">
+                                                        {{ $item->freq }} Transaksi
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            {{-- POINTS --}}
+                                            <div class="text-end ms-2">
+                                                <div class="fw-bolder text-primary h5 m-0">{{ $item->freq + $item->unit }}</div>
+                                                <small class="text-secondary" style="font-size: 0.65rem;">Poin</small>
+                                            </div>
+                                        </div>
                                     @empty
-                                        <li class="small text-muted fst-italic">Data tidak tersedia</li>
+                                        <div class="text-center py-5">
+                                            <div class="mb-3 text-light">
+                                                <i class="fas fa-inbox fa-3x opacity-25"></i>
+                                            </div>
+                                            <p class="small text-muted mb-0">Belum ada data tersedia</p>
+                                        </div>
                                     @endforelse
-                                </ul>
+                                </div>
                             </div>
 
                             {{-- Kolom Kanan: Top 5 Driver --}}
-                            <div class="col-md-6 ps-md-4 mt-4 mt-md-0">
-                                <h6 class="fw-bold mb-3" style="color: #36B9CC;"><i
-                                        class="fas fa-user-tie me-2 text-secondary"></i> <span class="text-secondary">5
-                                        teratas</span> Dengan Driver</h6>
-                                <ul class="list-group list-group-flush">
+                            <div class="col-md-6 ps-md-4 mt-5 mt-md-0">
+                                <div class="d-flex align-items-center mb-4">
+                                    <div class="bg-info bg-opacity-10 p-2 rounded-3 me-3 icon-box-shadow">
+                                        <i class="fas fa-user-tie text-info fa-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold m-0 text-dark">Terlaris Dengan Driver</h6>
+                                        <small class="text-muted">Berdasarkan total aktivitas</small>
+                                    </div>
+                                </div>
+
+                                <div class="leaderboard-list">
                                     @forelse($topDriver as $item)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center px-0 py-2 border-0">
-                                            <span class="small text-dark fw-bold">{{ $loop->iteration }}.
-                                                {{ $item->jenis_armada }}</span>
-                                            <span class="badge bg-light text-info border rounded-pill"
-                                                style="font-size: 0.7rem; color: #36B9CC !important;">{{ $item->freq + $item->unit }}
-                                                Poin</span>
-                                        </li>
+                                        <div class="leaderboard-item position-relative d-flex align-items-center p-3 mb-3 rounded-4 bg-white shadow-sm border transition-all hover-scale">
+                                            
+                                            {{-- RANKING BADGE --}}
+                                            <div class="position-absolute top-0 start-0 translate-middle badge rounded-pill border shadow-sm
+                                                @if($loop->iteration == 1) bg-warning text-dark border-warning
+                                                @elseif($loop->iteration == 2) bg-secondary text-white border-secondary
+                                                @elseif($loop->iteration == 3) bg-danger text-white border-danger
+                                                @else bg-light text-muted border-light-subtle @endif"
+                                                style="z-index: 10; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
+                                                {{ $loop->iteration }}
+                                            </div>
+
+                                            {{-- IMAGE --}}
+                                            <div class="me-3" style="width: 60px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                                <img src="{{ asset('images/cars/' . $item->image) }}" alt="{{ $item->jenis_armada }}" 
+                                                    class="img-fluid" style="max-height: 100%; filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2));">
+                                            </div>
+
+                                            {{-- TEXT CONTENT --}}
+                                            <div class="flex-grow-1 lh-1">
+                                                <div class="fw-bold text-dark mb-1 text-truncate" style="max-width: 150px;">{{ $item->jenis_armada }}</div>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge bg-info bg-opacity-10 text-info rounded-pill px-2 py-1" style="font-size: 0.65rem;">
+                                                        {{ $item->freq }} Transaksi
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            {{-- POINTS --}}
+                                            <div class="text-end ms-2">
+                                                <div class="fw-bolder text-info h5 m-0" style="color: #36B9CC !important;">{{ $item->freq + $item->unit }}</div>
+                                                <small class="text-secondary" style="font-size: 0.65rem;">Poin</small>
+                                            </div>
+                                        </div>
                                     @empty
-                                        <li class="small text-muted fst-italic">Data tidak tersedia</li>
+                                        <div class="text-center py-5">
+                                            <div class="mb-3 text-light">
+                                                <i class="fas fa-inbox fa-3x opacity-25"></i>
+                                            </div>
+                                            <p class="small text-muted mb-0">Belum ada data tersedia</p>
+                                        </div>
                                     @endforelse
-                                </ul>
+                                </div>
                             </div>
-                        </div>
 
                     </div>
                 </div>

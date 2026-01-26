@@ -18,12 +18,23 @@ class TransaksiController extends Controller
         $uploadedFiles = [];
 
         if ($dataExists) {
-            $previewData = Transaksi::latest()->paginate(100);
+            // Ambil data transaksi dengan aggregate stats per armada
+            $subquery = Transaksi::select('jenis_armada', 
+                \DB::raw('count(*) as frekuensi'),
+                \DB::raw('sum(jumlah_sewa) as total_unit')
+            )->groupBy('jenis_armada');
+
+            $previewData = Transaksi::select('transaksi.*', 'stats.frekuensi', 'stats.total_unit')
+                ->joinSub($subquery, 'stats', function ($join) {
+                    $join->on('transaksi.jenis_armada', '=', 'stats.jenis_armada');
+                })
+                ->latest('transaksi.created_at')
+                ->paginate(100);
 
             // Ambil daftar file unik beserta jumlah datanya
             $uploadedFiles = Transaksi::select('source_file', \DB::raw('count(*) as total'))
                 ->groupBy('source_file')
-                ->orderBy('created_at', 'desc')
+                ->latest('created_at')
                 ->get();
         }
 

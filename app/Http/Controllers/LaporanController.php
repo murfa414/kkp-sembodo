@@ -165,7 +165,8 @@ class LaporanController extends Controller
 
         return [
             'count' => count($clusterData), // Jumlah Mobil
-            'top3' => array_slice($clusterData, 0, 3) // Ambil 3 teratas buat list
+            'items' => $clusterData,         // Semua anggota klaster
+            'top3' => array_slice($clusterData, 0, 3) // Ambil 3 teratas buat dashboard
         ];
     }
 

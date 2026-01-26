@@ -64,8 +64,8 @@
                                     <td class="px-4 fw-bold">{{ $data['nama'] }}</td>
                                     
                                     {{-- Tambahkan data-val untuk sorting angka yang akurat --}}
-                                    <td class="text-center" data-val="{{ $data['c1'] }}">{{ $data['c1'] }} kali</td>
-                                    <td class="text-center" data-val="{{ $data['c2'] }}">{{ $data['c2'] }} unit</td>
+                                    <td class="text-center" data-val="{{ $data['c1'] }}">{{ $data['c1'] }}</td>
+                                    <td class="text-center" data-val="{{ $data['c2'] }}">{{ $data['c2'] }}</td>
                                     
                                     <td class="text-center" data-val="{{ $data['lepas_kunci'] }}">
                                         @if($data['lepas_kunci'] > 0)

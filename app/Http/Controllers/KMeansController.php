@@ -13,10 +13,10 @@ class KMeansController extends Controller
         // 1. [PRIORITAS UTAMA] Cek Data di Database Dulu!
         // Kalau tabel transaksi kosong, kita anggap semua hasil analisis sebelumnya TIDAK VALID.
         if (!Transaksi::exists()) {
-            
+
             // Hapus session bekas (Hantu) supaya bersih
-            session()->forget('kmeans_result'); 
-            
+            session()->forget('kmeans_result');
+
             // Tendang ke halaman upload
             return redirect()->route('upload.index')->with('error', 'Sistem tidak menemukan data yang dapat diproses. Pastikan Anda telah mengunggah data transaksi yang diperlukan.');
         }
@@ -45,7 +45,7 @@ class KMeansController extends Controller
         // Validasi input
         $request->validate([
             'jumlah_klaster' => 'required|integer|min:2|max:3',
-            'atribut'        => 'required|array|min:1' 
+            'atribut'        => 'required|array|min:1'
         ], [
             'jumlah_klaster.required' => 'Harap mengisi jumlah klaster terlebih dahulu.',
             'jumlah_klaster.integer'  => 'Kolom ini hanya dapat diisi dengan angka bulat (misalnya: 3).',
@@ -55,14 +55,14 @@ class KMeansController extends Controller
         ]);
 
         $k = $request->jumlah_klaster;
-        
+
         // Ambil atribut yang dipilih user (Array dari Checkbox)
-        $atributDipilih = $request->atribut; 
+        $atributDipilih = $request->atribut;
 
         // Query Database: Hitung total & pisahkan Lepas Kunci vs Driver
         $dataMentah = Transaksi::select(
-                'jenis_armada', 
-                DB::raw('count(*) as frekuensi'), 
+                'jenis_armada',
+                DB::raw('count(*) as frekuensi'),
                 DB::raw('sum(jumlah_sewa) as total_unit'),
                 DB::raw("SUM(CASE WHEN layanan = 'Lepas Kunci' THEN jumlah_sewa ELSE 0 END) as unit_lk"),
                 DB::raw("SUM(CASE WHEN layanan = 'Dengan Driver' THEN jumlah_sewa ELSE 0 END) as unit_dd")
@@ -73,7 +73,7 @@ class KMeansController extends Controller
         // Format ulang data + FILTER LOGIC (Ini yang baru)
         $dataArmada = [];
         foreach ($dataMentah as $row) {
-            
+
             // 1. Cek apakah 'frekuensi' dicentang user?
             if (in_array('frekuensi', $atributDipilih)) {
                 $nilaiC1 = $row->frekuensi;
@@ -92,7 +92,7 @@ class KMeansController extends Controller
                 'nama' => $row->jenis_armada,
                 'c1'   => $nilaiC1,  // Sumbu X (Sesuai Pilihan)
                 'c2'   => $nilaiC2,  // Sumbu Y (Sesuai Pilihan)
-                
+
                 // Data pelengkap buat tabel (tetap diambil buat display)
                 'lepas_kunci' => $row->unit_lk,
                 'driver'      => $row->unit_dd
@@ -107,18 +107,18 @@ class KMeansController extends Controller
         // --- TAHAP 2: ALGORITMA K-MEANS ---
 
         // A. Inisialisasi Centroid Awal (Acak)
-        shuffle($dataArmada); 
-        $centroids = array_slice($dataArmada, 0, $k); 
-        
-        $maxIterasi = 100; 
+        shuffle($dataArmada);
+        $centroids = array_slice($dataArmada, 0, $k);
+
+        $maxIterasi = 100;
         $iterasi = 0;
         $converged = false;
-        $clusters = []; 
+        $clusters = [];
 
         // B. Looping (Iterasi)
         while (!$converged && $iterasi < $maxIterasi) {
             $iterasi++;
-            
+
             // Reset wadah klaster
             $clusters = [];
             for ($i = 0; $i < $k; $i++) {
@@ -132,7 +132,7 @@ class KMeansController extends Controller
 
                 foreach ($centroids as $indexC => $center) {
                     $jarak = sqrt(
-                        pow($mobil['c1'] - $center['c1'], 2) + 
+                        pow($mobil['c1'] - $center['c1'], 2) +
                         pow($mobil['c2'] - $center['c2'], 2)
                     );
 
@@ -152,13 +152,13 @@ class KMeansController extends Controller
                 if (count($anggota) > 0) {
                     $avgC1 = array_sum(array_column($anggota, 'c1')) / count($anggota);
                     $avgC2 = array_sum(array_column($anggota, 'c2')) / count($anggota);
-                    
+
                     $newCentroids[$index] = [
                         'c1' => $avgC1,
                         'c2' => $avgC2
                     ];
                 } else {
-                    $newCentroids[$index] = $centroids[$index]; 
+                    $newCentroids[$index] = $centroids[$index];
                 }
             }
 
@@ -167,11 +167,11 @@ class KMeansController extends Controller
                 $converged = true;
             }
 
-            $centroids = $newCentroids; 
+            $centroids = $newCentroids;
         }
 
         // --- TAHAP TAMBAHAN: SORTING & RANKING (Laris = 0) ---
-        
+
         // 1. Hitung total skor tiap centroid
         $clusterScores = [];
         foreach ($centroids as $index => $center) {
@@ -179,7 +179,7 @@ class KMeansController extends Controller
         }
 
         // 2. Urutkan skor dari TINGGI ke RENDAH
-        arsort($clusterScores); 
+        arsort($clusterScores);
 
         // 3. Buat Mapping Index
         $mapping = [];
@@ -202,11 +202,11 @@ class KMeansController extends Controller
             $sortedClusters[$newRank] = $clusters[$oldIndex];
             $sortedCentroids[$newRank] = $centroids[$oldIndex];
         }
-        
+
         $clusters = $sortedClusters;
         $centroids = $sortedCentroids;
-        
-        ksort($clusters); 
+
+        ksort($clusters);
         ksort($centroids);
 
         //SORTING ANGGOTA DALAM KLASTER
@@ -214,10 +214,10 @@ class KMeansController extends Controller
         foreach ($clusters as $key => $members) {
             usort($clusters[$key], function ($a, $b) {
                 // Bandingkan Total Unit (c2), dari Besar ke Kecil
-                return $b['c2'] <=> $a['c2']; 
+                return $b['c2'] <=> $a['c2'];
             });
         }
-        
+
         // 1. Bungkus semua data hasil ke dalam array
         $hasilAnalisis = compact('dataArmada', 'centroids', 'iterasi', 'clusters');
 

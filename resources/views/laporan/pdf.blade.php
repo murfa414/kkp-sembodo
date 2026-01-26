@@ -20,7 +20,7 @@
 
         /* === HEADER === */
         .header {
-            background: linear-gradient(135deg, #1a5490 0%, #2c3a63 100%);
+            background-color: #1a5490;
             color: white;
             padding: 25px 30px;
             margin-bottom: 25px;
@@ -150,6 +150,11 @@
             font-size: 11px;
         }
 
+        /* Striped rows (Bootstrap-like) */
+        .data-table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
         .data-table tr:last-child td {
             border-bottom: none;
         }
@@ -174,9 +179,10 @@
         .data-table .score {
             background-color: #4E73DF;
             color: white;
-            padding: 4px 10px;
-            border-radius: 12px;
+            padding: 3px 12px;
+            border-radius: 50px;
             font-size: 10px;
+            font-weight: bold;
             display: inline-block;
         }
 
@@ -220,8 +226,8 @@
 
         /* === BADGE === */
         .badge {
-            padding: 3px 8px;
-            border-radius: 10px;
+            padding: 3px 12px;
+            border-radius: 50px;
             font-size: 9px;
             font-weight: bold;
         }
@@ -269,10 +275,9 @@
     <!-- HEADER -->
     <div class="header">
         <div class="header-title">LAPORAN ANALISIS PERFORMA ARMADA</div>
-        <div class="header-subtitle">Hasil Clustering K-Means Berdasarkan Frekuensi Sewa & Total Unit</div>
         <div class="header-info">
-            <span>📅 Tanggal Cetak: {{ \Carbon\Carbon::now('Asia/Jakarta')->translatedFormat('d F Y, H:i') }} WIB</span>
-            <span>🏢 PT. Sembodo Rental Indonesia</span>
+            <span>Tanggal Cetak: {{ \Carbon\Carbon::now('Asia/Jakarta')->locale('id')->translatedFormat('d F Y, H:i') }} WIB</span>
+            <span>Perusahaan: PT. Sembodo Rent a Car</span>
         </div>
     </div>
 
@@ -295,7 +300,7 @@
     <!-- SECTION 1: ARMADA LARIS -->
     <div class="section">
         <div class="section-header laris">
-            <span class="section-header-icon">🔥</span>
+            <span class="section-header-icon">[PERFORMA TINGGI]</span>
             ARMADA PALING LARIS
         </div>
         <div class="section-content">
@@ -315,7 +320,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($laris['top3'] as $index => $item)
+                    @forelse($laris['items'] as $index => $item)
                         <tr>
                             <td class="rank">#{{ $index + 1 }}</td>
                             <td class="vehicle-name">{{ $item['nama'] }}</td>
@@ -347,8 +352,8 @@
 
     <!-- SECTION 2: PERFORMA SEDANG -->
     <div class="section">
-        <div class="section-header sedang">
-            <span class="section-header-icon">⚡</span>
+        <div class="section-header sedang" style="margin-top: 20px;">
+            <span class="section-header-icon">[PERFORMA SEDANG]</span>
             PERFORMA SEDANG
         </div>
         <div class="section-content">
@@ -367,7 +372,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($sedang['top3'] as $index => $item)
+                    @forelse($sedang['items'] as $index => $item)
                         <tr>
                             <td class="rank">#{{ $index + 1 }}</td>
                             <td class="vehicle-name">{{ $item['nama'] }}</td>
@@ -399,8 +404,8 @@
 
     <!-- SECTION 3: KURANG DIMINATI -->
     <div class="section">
-        <div class="section-header kurang">
-            <span class="section-header-icon">⚠️</span>
+        <div class="section-header kurang" style="margin-top: 20px;">
+            <span class="section-header-icon">[PERFORMA RENDAH]</span>
             KURANG DIMINATI
         </div>
         <div class="section-content">
@@ -420,7 +425,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($kurangLaris['top3'] as $index => $item)
+                    @forelse($kurangLaris['items'] as $index => $item)
                         <tr>
                             <td class="rank">#{{ $index + 1 }}</td>
                             <td class="vehicle-name">{{ $item['nama'] }}</td>
@@ -454,9 +459,9 @@
 
     <!-- FOOTER -->
     <div class="footer">
-        <div class="footer-logo">PT. SEMBODO RENTAL INDONESIA</div>
+        <div class="footer-logo">PT. Sembodo Rent a Car</div>
         <div style="margin-top: 5px;">
-            Laporan ini dihasilkan secara otomatis oleh Sistem Analisis Data Mining K-Means Clustering<br>
+            <!-- Laporan ini dihasilkan secara otomatis oleh Sistem Analisis Data Mining K-Means Clustering<br> -->
             Dokumen ini bersifat rahasia dan hanya untuk keperluan internal perusahaan
         </div>
     </div>

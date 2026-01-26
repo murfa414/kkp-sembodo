@@ -86,12 +86,15 @@
         </nav>
 
         <div class="text-center mt-auto">
-            {{-- Form Logout (Method POST) --}}
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf {{-- Token Keamanan Wajib --}}
-                <button type="submit" class="btn btn-logout px-5 py-2 fw-bold shadow-sm border-0">
-                    Keluar
-                </button>
+            {{-- Tombol Logout Trigger Modal --}}
+            <button type="button" class="btn btn-logout px-5 py-2 fw-bold shadow-sm border-0" 
+                data-bs-toggle="modal" data-bs-target="#modalLogout">
+                Keluar
+            </button>
+            
+            {{-- Form Logout (Hidden) --}}
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
             </form>
         </div>
     </div>
@@ -105,6 +108,28 @@
         </div>
 
         @yield('content')
+    </div>
+
+    {{-- MODAL LOGOUT --}}
+    <div class="modal fade" id="modalLogout" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-body text-center py-5">
+                    <div class="mb-3 text-secondary">
+                        <i class="fas fa-sign-out-alt fa-4x"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Ingin Keluar?</h5>
+                    <p class="text-muted px-4">
+                        Apakah Anda yakin ingin mengakhiri sesi ini?
+                    </p>
+                    <div class="d-flex justify-content-center gap-2 mt-4">
+                        <button type="button" class="btn btn-light border fw-bold px-4" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-danger fw-bold px-4" 
+                            onclick="document.getElementById('logout-form').submit()">Ya, Keluar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -134,6 +134,59 @@ class BerandaController extends Controller
             ['name' => 'Dengan Driver', 'y' => $layananData['Dengan Driver'] ?? 0],
         ];
 
+        // --- HELPER: MAP GAMBAR ARMADA ---
+        $mapImage = function ($items) {
+            return $items->map(function ($item) {
+                $namaMobil = strtolower($item->jenis_armada);
+                $namaFile = 'default.png';
+
+                // LOGIKA MAPPING GAMBAR
+                if (str_contains($namaMobil, 'xpander')) $namaFile = 'mitsubishi_xpander_utimate.png';
+                elseif (str_contains($namaMobil, 'innova')) $namaFile = 'toyota_innova_zenix.png';
+                elseif (str_contains($namaMobil, 'fortuner')) $namaFile = 'toyota_fortuner_vrz.png';
+                elseif (str_contains($namaMobil, 'alphard') || str_contains($namaMobil, 'vellfire')) $namaFile = 'toyota_alphard.png';
+                elseif (str_contains($namaMobil, 'avanza') || str_contains($namaMobil, 'veloz')) $namaFile = 'toyota_avanza.png';
+                elseif (str_contains($namaMobil, 'hiace')) $namaFile = 'toyota_hiace.png';
+                elseif (str_contains($namaMobil, 'pajero')) $namaFile = 'pajero.png';
+                elseif (str_contains($namaMobil, 'pariwisata') || str_contains($namaMobil, 'bus')) $namaFile = 'bus_pariwisata.png';
+                elseif (str_contains($namaMobil, 'elf')) $namaFile = 'isuzu_elf.jpg';
+                elseif (str_contains($namaMobil, 'brio')) $namaFile = 'honda_brio.png';
+                elseif (str_contains($namaMobil, 'civic')) $namaFile = 'honda_civic.png';
+                elseif (str_contains($namaMobil, 'hrv')) $namaFile = 'honda_hrv.png';
+                elseif (str_contains($namaMobil, 'crv')) $namaFile = 'honda_crv.png';
+                elseif (str_contains($namaMobil, 'wr-v')) $namaFile = 'honda_wrv.png';
+                elseif (str_contains($namaMobil, 'stargazer')) $namaFile = 'hyundai_stargazer.png';
+                elseif (str_contains($namaMobil, 'creta')) $namaFile = 'hyundai_creta.png';
+                elseif (str_contains($namaMobil, 'ioniq')) $namaFile = 'hyundai_ioniq.png';
+                elseif (str_contains($namaMobil, 'palisade')) $namaFile = 'hyundai_palisade.jpg';
+                elseif (str_contains($namaMobil, 'kona')) $namaFile = 'hyundai_kona.jpg';
+                elseif (str_contains($namaMobil, 'h-1')) $namaFile = 'hyundai_h1.jpg';
+                elseif (str_contains($namaMobil, 'ertiga') || str_contains($namaMobil, 'xl7')) $namaFile = 'suzuki_ertiga.png';
+                elseif (str_contains($namaMobil, 'xenia')) $namaFile = 'daihatsu_xenia.png';
+                elseif (str_contains($namaMobil, 'terios')) $namaFile = 'daihatsu_terios.png';
+                elseif (str_contains($namaMobil, 'luxio') || str_contains($namaMobil, 'grandmax')) $namaFile = 'daihatsu_granmax.jpg';
+                elseif (str_contains($namaMobil, 'wuling') || str_contains($namaMobil, 'almaz') || str_contains($namaMobil, 'confero')) $namaFile = 'wuling_almaz.png';
+                elseif (str_contains($namaMobil, 'camry')) $namaFile = 'toyota_camry.avif';
+                elseif (str_contains($namaMobil, 'voxy')) $namaFile = 'toyota_voxy.png';
+                elseif (str_contains($namaMobil, 'rush')) $namaFile = 'toyota_rush.png';
+                elseif (str_contains($namaMobil, 'mercy') || str_contains($namaMobil, 'mercedes')) $namaFile = 'mercedes_benz_sprinter.jpg';
+
+                // Cek file exist
+                if (file_exists(public_path('images/cars/' . $namaFile))) {
+                    $item->image = $namaFile;
+                } else {
+                    $item->image = 'default.png';
+                }
+                return $item;
+            });
+        };
+
+        // TERAPKAN MAPPING
+        $topArmada = $mapImage($topArmada);
+        $topLepasKunci = $mapImage($topLepasKunci);
+        $topDriver = $mapImage($topDriver);
+
+
         // --- F. STATISTIK RINGKASAN ---
         $totalTransaksi = (clone $baseQuery)->count();
         $totalUnit = (clone $baseQuery)->sum('jumlah_sewa');

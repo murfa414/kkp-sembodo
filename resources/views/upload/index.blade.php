@@ -88,86 +88,101 @@
                 <div class="row">
                     <div class="col-md-5 mb-4">
                         {{-- CARD 1: STATUS UPLOAD TERAKHIR --}}
-                        <div class="p-4 h-100"
-                            style="border: 2px dashed #4E73DF; background-color: #F8F9FC; border-radius: 15px;">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="me-3 text-center">
-                                    <i class="fas fa-file-excel fa-3x text-success"></i>
+                        <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                            <div class="card-body p-4 position-relative">
+                                <div class="position-absolute top-0 end-0 p-3 opacity-10">
+                                    <i class="fas fa-cloud-upload-alt fa-5x text-primary"></i>
                                 </div>
-                                <div>
-                                    <h6 class="fw-bold text-dark mb-1">Status Terakhir</h6>
-                                    <p class="small text-muted mb-0">
-                                        {{ session('nama_file_aktual', 'Data Tersimpan') }}
-                                    </p>
-                                    @if(session('import_mode'))
-                                        <span
-                                            class="badge {{ session('import_mode') == 'replace' ? 'bg-warning text-dark' : 'bg-info text-white' }} mt-1">
-                                            {{ session('import_mode') == 'replace' ? 'Data Diganti' : 'Data Ditambahkan' }}
-                                        </span>
-                                    @endif
+                                
+                                <h6 class="fw-bold text-secondary text-uppercase small mb-3">Status Terakhir</h6>
+                                
+                                <div class="d-flex align-items-center mb-4">
+                                    <div class="bg-success bg-opacity-10 p-3 rounded-circle me-3">
+                                        <i class="fas fa-file-excel fa-2x text-success"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold text-dark mb-1">{{ session('nama_file_aktual', 'Data Tersimpan') }}</h5>
+                                        @if(session('import_mode'))
+                                            <span class="badge {{ session('import_mode') == 'replace' ? 'bg-warning text-dark' : 'bg-info text-white' }} rounded-pill px-3">
+                                                {{ session('import_mode') == 'replace' ? 'Mode: Ganti Data' : 'Mode: Tambah Data' }}
+                                            </span>
+                                        @else
+                                            <span class="badge bg-light text-secondary border rounded-pill px-3">Data Siap Dianalisis</span>
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-primary btn-sm fw-bold"
-                                    onclick="document.getElementById('appendFileInput').click()">
-                                    <i class="fas fa-plus me-1"></i> Tambah File Baru
-                                </button>
-                                <button class="btn btn-outline-warning btn-sm fw-bold"
-                                    onclick="document.getElementById('replaceFileInput').click()">
-                                    <i class="fas fa-sync-alt me-1"></i> Ganti Semua
-                                </button>
-                            </div>
+                                <hr class="border-light-subtle my-3">
 
-                            {{-- Hidden Forms --}}
-                            <form action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data"
-                                id="appendForm" class="d-inline">
-                                @csrf
-                                <input type="file" name="file" id="appendFileInput" class="d-none"
-                                    onchange="validateFile(this, 'appendForm')">
-                            </form>
-                            <form action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data"
-                                id="replaceForm" class="d-inline">
-                                @csrf <input type="hidden" name="replace_data" value="1">
-                                <input type="file" name="file" id="replaceFileInput" class="d-none"
-                                    onchange="validateFile(this, 'replaceForm')">
-                            </form>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-primary fw-bold py-2 shadow-sm"
+                                        onclick="document.getElementById('appendFileInput').click()">
+                                        <i class="fas fa-plus-circle me-2"></i> Tambah File Baru
+                                    </button>
+                                    <button class="btn btn-light text-danger fw-bold py-2 border hover-danger"
+                                        onclick="document.getElementById('replaceFileInput').click()">
+                                        <i class="fas fa-sync-alt me-2"></i> Ganti Semua Data
+                                    </button>
+                                </div>
+
+                                {{-- Hidden Forms --}}
+                                <form action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data"
+                                    id="appendForm" class="d-inline">
+                                    @csrf
+                                    <input type="file" name="file" id="appendFileInput" class="d-none"
+                                        onchange="validateFile(this, 'appendForm')">
+                                </form>
+                                <form action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data"
+                                    id="replaceForm" class="d-inline">
+                                    @csrf <input type="hidden" name="replace_data" value="1">
+                                    <input type="file" name="file" id="replaceFileInput" class="d-none"
+                                        onchange="validateFile(this, 'replaceForm')">
+                                </form>
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-md-7 mb-4">
                         {{-- CARD 2: RIWAYAT FILE UPLOAD --}}
                         <div class="card h-100 border-0 shadow-sm">
-                            <div class="card-header bg-white py-3">
-                                <h6 class="m-0 fw-bold text-primary"><i class="fas fa-history me-2"></i>Riwayat File Upload</h6>
+                            <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+                                <h6 class="m-0 fw-bold text-dark"><i class="fas fa-history me-2 text-secondary"></i>Riwayat Upload</h6>
+                                <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold"
+                                    onclick="bukaModal('modalKonfirmasiHapus')" style="font-size: 0.75rem;">
+                                    <i class="fas fa-trash me-1"></i> Reset Sistem
+                                </button>
                             </div>
                             <div class="card-body p-0">
-                                <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
-                                    <table class="table table-hover align-middle mb-0">
-                                        <thead class="bg-light">
+                                <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
+                                    <table class="table align-middle mb-0 table-hover">
+                                        <thead class="bg-light sticky-top">
                                             <tr>
-                                                <th class="ps-3">Nama File</th>
-                                                <th class="text-center">Total Data</th>
-                                                <th class="text-end pe-3">Aksi</th>
+                                                <th class="ps-4 text-secondary small text-uppercase">Nama File</th>
+                                                <th class="text-center text-secondary small text-uppercase">Total Data</th>
+                                                <th class="text-end pe-4 text-secondary small text-uppercase">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @forelse($uploadedFiles as $file)
                                                 <tr>
-                                                    <td class="ps-3">
-                                                        <i class="fas fa-file-csv text-secondary me-2"></i>
-                                                        <span
-                                                            class="fw-bold text-dark small">{{ $file->source_file ?? 'Data Lama (Tanpa Nama)' }}</span>
+                                                    <td class="ps-4 py-3">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="bg-light p-2 rounded me-3">
+                                                                <i class="fas fa-file-csv text-primary"></i>
+                                                            </div>
+                                                            <span class="fw-bold text-dark">{{ $file->source_file ?? 'Data Lama' }}</span>
+                                                        </div>
                                                     </td>
                                                     <td class="text-center">
-                                                        <span class="badge bg-light text-dark border">{{ $file->total }}</span>
+                                                        <span class="badge bg-light text-dark border rounded-pill px-3">{{ $file->total }} Baris</span>
                                                     </td>
-                                                    <td class="text-end pe-3">
+                                                    <td class="text-end pe-4">
                                                         @if($file->source_file)
-                                                            <button type="button" class="btn btn-danger btn-sm py-0 shadow-sm"
-                                                                title="Hapus file ini saja"
+                                                            <button type="button" class="btn btn-light text-danger btn-sm rounded-circle shadow-sm border"
+                                                                title="Hapus file ini"
+                                                                style="width: 32px; height: 32px;"
                                                                 onclick="hapusFile('{{ $file->source_file }}')">
-                                                                <i class="fas fa-trash-alt fa-xs"></i>
+                                                                <i class="fas fa-trash-alt"></i>
                                                             </button>
                                                         @else
                                                             <small class="text-muted">-</small>
@@ -176,19 +191,17 @@
                                                 </tr>
                                             @empty
                                                 <tr>
-                                                    <td colspan="3" class="text-center py-3 text-muted small">Belum ada riwayat
-                                                        file.</td>
+                                                    <td colspan="3" class="text-center py-5 text-muted">
+                                                        <i class="fas fa-folder-open fa-2x mb-2 opacity-25"></i>
+                                                        <p class="small mb-0">Belum ada riwayat file.</p>
+                                                    </td>
                                                 </tr>
                                             @endforelse
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <div class="card-footer bg-white text-end">
-                                <button type="button" class="btn btn-outline-danger btn-sm fw-bold"
-                                    onclick="bukaModal('modalKonfirmasiHapus')">
-                                    <i class="fas fa-trash me-1"></i> Hapus SEMUA Data
-                                </button>
+                            <div class="card-footer bg-white border-top-0 py-3">
                                 <form action="{{ route('upload.reset') }}" method="POST" id="formHapus" class="d-none">
                                     @csrf @method('DELETE')
                                 </form>
@@ -207,54 +220,57 @@
     </div>
 
     {{-- TABEL PREVIEW --}}
-    <div class="card border-0 shadow-sm" style="min-height: 400px;">
-        <div class="card-body">
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden" style="min-height: 400px;">
+        <div class="card-header bg-white py-3 border-0">
+            <h6 class="fw-bold text-dark m-0">Tampilan Data Transaksi</h6>
+        </div>
+        <div class="card-body p-0">
             @if($dataExists)
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h6 class="fw-bold text-dark">Tampilan Data Transaksi</h6>
-                </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle">
+                    <table class="table table-bordered table-striped table-hover align-middle mb-0">
                         <thead class="table-dark">
-                            <tr class="text-nowrap text-start align-middle">
-                                <th>Tanggal Sewa</th>
-                                <th>Nama Penyewa</th>
+                            <tr class="text-nowrap text-center align-middle">
+                                <th class="py-3">Tanggal Sewa</th>
+                                <th class="text-start">Nama Penyewa</th>
                                 <th>Unit</th>
                                 <th>Layanan</th>
-                                <th class="text-center">Jumlah Sewa</th>
+                                <th>Frekuensi</th>
+                                <th>Total Unit Keluar</th>
+                                <th>Jumlah Sewa</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($previewData as $dt)
                                 <tr>
-                                    <td>{{ \Carbon\Carbon::parse($dt->tanggal_sewa)->format('d/m/Y') }}</td>
-                                    <td>{{ $dt->nama_penyewa }}</td>
+                                    <td class="text-center">{{ \Carbon\Carbon::parse($dt->tanggal_sewa)->format('d/m/Y') }}</td>
+                                    <td class="fw-bold">{{ $dt->nama_penyewa }}</td>
                                     <td class="text-nowrap">{{ $dt->jenis_armada }}</td>
-                                    <td class="text-nowrap align-middle">
+                                    <td class="text-nowrap text-center fs-5">
                                         @if($dt->layanan == 'Lepas Kunci')
-                                            <span class="badge-lepas-kunci">Lepas Kunci</span>
+                                            <span class="badge bg-primary rounded-pill px-3">Lepas Kunci</span>
                                         @else
-                                            <span class="badge-dengan-driver">Dengan Driver</span>
+                                            <span class="badge bg-success rounded-pill px-3">Dengan Driver</span>
                                         @endif
                                     </td>
+                                    <td class="text-center fw-bold">{{ $dt->frekuensi }}</td>
+                                    <td class="text-center fw-bold">{{ $dt->total_unit }}</td>
                                     <td class="text-center fw-bold">{{ $dt->jumlah_sewa }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
 
-                    <div class="mt-3">
+                    <div class="p-3">
                         {{ $previewData->links('pagination::bootstrap-5') }}
                     </div>
-                    {{-- <div class="text-muted small fst-italic mt-2">
-                        *Hanya menampilkan 5 data terbaru dari basis data.
-                    </div> --}}
                 </div>
             @else
-                <div class="d-flex flex-column justify-content-center align-items-center h-100 py-5">
-                    <i class="fas fa-table fa-4x mb-3 text-secondary" style="opacity: 0.3;"></i>
-                    <h5 class="fw-bold text-secondary">Tampilan Data Belum Tersedia</h5>
-                    <p class="text-muted">Silakan unggah file di panel atas untuk melihat isi data transaksi.</p>
+                <div class="d-flex flex-column justify-content-center align-items-center py-5" style="height: 300px;">
+                    <div class="bg-light rounded-circle p-4 mb-3">
+                        <i class="fas fa-database fa-3x text-secondary opacity-50"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark mt-2">Data Belum Tersedia</h5>
+                    <p class="text-muted text-center max-w-md">Silakan unggah file Excel/CSV pada panel di atas<br>untuk melihat pratinjau data transaksi.</p>
                 </div>
             @endif
         </div>
@@ -352,6 +368,29 @@
     </div>
 
 
+    {{-- MODAL 5: KONFIRMASI HAPUS FILE SATUAN --}}
+    <div class="modal fade" id="modalHapusFileSatuan" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-body text-center py-5">
+                    <div class="mb-3 text-warning">
+                        <i class="fas fa-trash-alt fa-4x"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Hapus File Ini?</h5>
+                    <p class="text-muted px-4">
+                        Data dari file <span id="namaFileHapus" class="fw-bold text-dark"></span> akan dihapus permanen.
+                    </p>
+                    <div class="d-flex justify-content-center gap-2 mt-4">
+                        <button type="button" class="btn btn-light border fw-bold px-4"
+                            onclick="tutupModal('modalHapusFileSatuan')">Batal</button>
+                        <button type="button" class="btn btn-danger fw-bold px-4"
+                            onclick="prosesHapusFile()">Ya, Hapus</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- Tidak perlu load SweetAlert lagi jika tidak dipakai di tempat lain --}}
     <script>
         // FUNGSI BUKA MODAL MANUAL
@@ -385,12 +424,21 @@
             }
         }
 
-        // FUNGSI HAPUS FILE SPESIFIK
+        // FUNGSI TRIGGER HAPUS FILE SPESIFIK (MODAL)
+        let fileToDelete = '';
+
         function hapusFile(filename) {
-            if (confirm('Yakin ingin menghapus semua data dari file "' + filename + '"?')) {
-                document.getElementById('inputFilename').value = filename;
+            fileToDelete = filename;
+            document.getElementById('namaFileHapus').textContent = filename;
+            bukaModal('modalHapusFileSatuan');
+        }
+
+        // FUNGSI EKSEKUSI HAPUS
+        function prosesHapusFile() {
+             if(fileToDelete) {
+                document.getElementById('inputFilename').value = fileToDelete;
                 document.getElementById('formHapusFile').submit();
-            }
+             }
         }
 
         // LISTENER SAAT HALAMAN LOAD
@@ -405,7 +453,7 @@
             @if(session('error'))
                 bukaModal('modalErrorSession');
             @endif
-                });
+        });
     </script>
 
 @endsection
