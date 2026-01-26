@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Laporan Analisis Unit - PT. Sembodo Rental Indonesia</title>
+    <title>Laporan Analisis Performa Unit - PT. Sembodo Rent a Car</title>
     <style>
         * {
             margin: 0;
@@ -274,7 +274,7 @@
 <body>
     <!-- HEADER -->
     <div class="header">
-        <div class="header-title">LAPORAN ANALISIS PERFORMA Unit</div>
+        <div class="header-title">LAPORAN ANALISIS PERFORMA UNIT</div>
         <div class="header-info">
             <span>Tanggal Cetak: {{ \Carbon\Carbon::now('Asia/Jakarta')->locale('id')->translatedFormat('d F Y, H:i') }} WIB</span>
             <span>Perusahaan: PT. Sembodo Rent a Car</span>
