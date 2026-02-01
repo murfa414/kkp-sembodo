@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-// use di bawah untuk hapus uploadan data ketika logout
 use App\Models\Transaksi; 
 
 
@@ -42,7 +41,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {   
         Transaksi::truncate(); 
-        // supaya upload-an data kehapus setelah logut
 
         Auth::logout();
         $request->session()->invalidate();

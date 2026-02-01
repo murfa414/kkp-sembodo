@@ -19,9 +19,9 @@ class DatabaseSeeder extends Seeder
 
         // Dummy admin user
         \App\Models\User::create([
-            'name' => 'Admin',
-            'username' => 'admin',
-            'password' => bcrypt('12345'),
+            'name' => 'Nurul',
+            'username' => 'nurul',
+            'password' => bcrypt('nurul12345'),
         ]);
     }
 }

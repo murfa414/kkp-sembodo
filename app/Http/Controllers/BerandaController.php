@@ -39,7 +39,7 @@ class BerandaController extends Controller
             ->pluck('bulan')
             ->map(function ($bulan) {
                 Carbon::setLocale('id');
-                $dateObj = Carbon::createFromFormat('Y-m', $bulan);
+                $dateObj = Carbon::createFromFormat('Y-m5', $bulan);
                 return [
                     'value' => $bulan,
                     'label' => $dateObj->translatedFormat('F Y')
@@ -59,7 +59,6 @@ class BerandaController extends Controller
             ->values()
             ->sort();
 
-        // --- BUILD BASE QUERY DENGAN FILTER ---
         $baseQuery = Transaksi::query();
 
         if ($selectedMonth) {

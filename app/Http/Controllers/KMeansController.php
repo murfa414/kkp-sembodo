@@ -101,7 +101,7 @@ class KMeansController extends Controller
 
         // Cek jumlah data vs klaster
         if (count($dataArmada) < $k) {
-            return back()->with('error', 'Jumlah armada (' . count($dataArmada) . ') terlalu sedikit untuk dibagi menjadi ' . $k . ' klaster.');
+            return back()->with('error', 'Jumlah Unit (' . count($dataArmada) . ') terlalu sedikit untuk dibagi menjadi ' . $k . ' klaster.');
         }
 
         // --- TAHAP 2: ALGORITMA K-MEANS ---

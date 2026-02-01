@@ -10,33 +10,33 @@
 
         {{-- MAIN CARD --}}
         <div class="card border-0 shadow-sm mb-4 text-center rounded-5 position-relative overflow-hidden bg-white">
-            
+
             {{-- Top Gradient Line --}}
             <div class="position-absolute top-0 start-0 w-100 bg-gradient-primary" style="height: 6px;"></div>
 
             <div class="card-body p-4 p-md-5">
-                
+
                 <div class="mb-5 mt-2">
                     {{-- Icon with Pulse Animation --}}
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-4 icon-pulse bg-soft-gradient" 
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-4 icon-pulse bg-soft-gradient"
                         style="width: 130px; height: 130px;">
                         <i class="fas fa-chart-line fa-4x text-primary"></i>
                     </div>
 
                     <h3 class="fw-bolder text-dark mb-3">Analisis Kategori Unit</h3>
-                    
+
                     <p class="text-muted mx-auto lh-lg fs-6 text-start text-md-center px-2" style="max-width: 500px;">
-                        Sistem akan secara otomatis mengelompokkan unit menjadi kategori 
-                        <span class="text-primary fw-bold">Laris</span>, 
-                        <span class="text-warning fw-bold">Sedang</span>, dan 
-                        <span class="text-danger fw-bold">Kurang Laris</span> 
+                        Sistem akan secara otomatis mengelompokkan unit menjadi beberapa kategori:
+                        <span class="text-primary fw-bold">Laris</span>,
+                        <span class="text-warning fw-bold">Sedang</span>, dan
+                        <span class="text-danger fw-bold">Kurang Laris</span>
                         berdasarkan jumlah penyewaan.
                     </p>
                 </div>
 
                 <form action="{{ route('kmeans.process') }}" method="POST">
                     @csrf
-                    
+
                     {{-- Hidden Inputs --}}
                     <input type="hidden" name="atribut[]" value="frekuensi">
                     <input type="hidden" name="atribut[]" value="total_unit">

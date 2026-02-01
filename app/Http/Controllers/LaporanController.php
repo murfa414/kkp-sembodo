@@ -194,7 +194,7 @@ class LaporanController extends Controller
         $mode = $request->get('mode', 'download');
 
         // Generate filename dengan timezone Indonesia
-        $filename = 'laporan_kmeans_' . now()->setTimezone('Asia/Jakarta')->format('Ymd_His') . '.pdf';
+        $filename = 'laporan_hasil_penyewaan_' . now()->setTimezone('Asia/Jakarta')->format('Ymd_His') . '.pdf';
 
         if ($mode === 'preview') {
             // Stream PDF (tampilkan di browser)
